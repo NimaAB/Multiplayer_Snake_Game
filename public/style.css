@@ -44,3 +44,6 @@ body{
     box-shadow: 1px 3px #3e3d3f;
 }
 
+img {
+    display: none;
+}
