@@ -1,0 +1,46 @@
+*, *::after, *::before{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root{
+    font-size: 16px;
+}
+body{
+   width: 100%;
+   height: 100%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.index-bg{
+    background-color: cornflowerblue;
+}
+
+/*.game-bg{}*/
+
+.display{
+    margin-top: 5em;
+    border:1px solid #3e3d3f;
+    background-color: rgb(123, 164, 240);
+}
+
+/*utilities:*/
+.fs-lbl{
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: whitesmoke;
+    text-shadow: 2px 1px #3e3d3f;
+}
+.fs-btn{
+    font-weight: bold;
+    font-size: 1.6em;
+    color: whitesmoke;
+}
+
+.shadow {
+    box-shadow: 1px 3px #3e3d3f;
+}
+

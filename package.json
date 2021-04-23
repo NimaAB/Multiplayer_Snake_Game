@@ -1,0 +1,19 @@
+{
+  "name": "portfolio2-snake",
+  "version": "1.0.0",
+  "description": "Portofolio2 snake game",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node main",
+    "dev": "nodemon main"
+  },
+  "author": "Nima Abdollahi, Glaysa Fernandez, Ali Reza",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
