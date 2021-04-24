@@ -7,7 +7,7 @@ it will refresh the server for you.
 
 Server will run on: `localhost:5000`
 
-# to important routes:
+# Two important routes:
 `/` for index page
 <br>
 `/game.html` for the game page
