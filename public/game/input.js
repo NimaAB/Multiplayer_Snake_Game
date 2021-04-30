@@ -1,7 +1,6 @@
 export default class InputHandler {
     constructor(){
         document.addEventListener("keydown", (event) => {
-            alert(event.keyCode)
             switch(event.keyCode){
                 case 38:
                     //moveUp();
