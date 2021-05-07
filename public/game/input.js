@@ -1,23 +1,21 @@
 export default class InputHandler {
-    constructor(){
+    constructor(snake){
         document.addEventListener("keydown", (event) => {
             switch(event.keyCode){
                 case 38:
-                    //moveUp();
+                    snake.moveUp();
                     break;
                 case 39:
-                    //turnRight(); another choice!
-                    //moveRight();
+                    snake.moveRight();
                     break;
                 case 40:
-                    //moveDown();
+                    snake.moveDown();
                     break;
                 case 37:
-                    //turnLeft(); another choice!
-                    //moveLeft();
+                    snake.moveLeft();
                     break;
                 case 81:
-                    //quit(); back to menu or a new route for the leader board and a paly again btn
+                    //quit(); back to menu or a new route for the leader board and a play again btn
                     break;
             }
         });

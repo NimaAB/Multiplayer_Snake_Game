@@ -9,7 +9,7 @@ export default class Game{
 
     start(){
         this.snake = new Snake(this);
-        new InputHandler();
+        new InputHandler(this.snake);
         
         //other objects here with (this).
     }
