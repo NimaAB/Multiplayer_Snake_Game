@@ -1,37 +1,50 @@
+import CollisionDetection from "./collisionDetection.js";
+
+
 export default class Snake {
     constructor(game) {
-        this.width = 15;
-        this.height = 15;
+        this.width = game.UNIT;
+        this.height = game.UNIT;
 
-        this.position = {
+        this.bodyParts = 4;
+
+        this.head_position = {
             x: Math.floor((Math.random() * game.width) + 1),
             y: Math.floor((Math.random() * game.height) + 1)
         };
 
-        this.SPEED = 2;
+        this.SPEED = game.hardness;
         this.speed = {
             x: 2,
             y: 0
         };
+
+        this.collisions = new CollisionDetection(game, this);
     }
 
     draw(ctx) {
-        ctx.fillStyle = "#e3e3e3";
-        ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+        ctx.fillStyle = "#401f71";
+        ctx.fillRect(
+            this.head_position.x,
+            this.head_position.y,
+            this.width,
+            this.height
+        );
     }
+
 
     update(delta_time) {
         if (!delta_time) return;
 
         //if the block has a horizontal speed then it will only change the vertical speed/direction.
         if (this.speed.y === 0) {
-            this.position.x += this.speed.x;
+            this.head_position.x += this.speed.x;
         }
         //if the block has a vertical speed then it will only change the horizontal speed/direction.
         if (this.speed.x === 0) {
-            this.position.y += this.speed.y;
+            this.head_position.y += this.speed.y;
         }
-
+        this.collisions.wallCollisions();
     }
 
     moveUp() {

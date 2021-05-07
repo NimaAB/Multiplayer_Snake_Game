@@ -1,8 +1,11 @@
 import Snake from './snake.js'
 import InputHandler from './input.js';
 
+
 export default class Game{
     constructor(gameWidth, gameHeight){
+        this.UNIT = 20;
+        this.hardness = 2;
         this.width = gameWidth;
         this.height = gameHeight;        
     }
@@ -10,6 +13,7 @@ export default class Game{
     start(){
         this.snake = new Snake(this);
         new InputHandler(this.snake);
+
         
         //other objects here with (this).
     }
