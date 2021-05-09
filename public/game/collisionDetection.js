@@ -1,22 +1,31 @@
-export default class CollisionDetection{
+export default class CollisionDetection {
     constructor(game, snake) {
         this.game = game;
         this.snake = snake;
     }
 
-    wallCollisions(){
+    wallCollisions() {
         //Not working properly yet
-        let head = this.snake.snake_body[this.snake.snake_body.length-1];
+        let head = this.snake.posisions[this.snake.posisions.length - 1];
         let head_x_pos = head[0];
         let head_y_pos = head[1];
 
-        //left & right walls:
-        if(head_x_pos + this.snake.width/2 === 0 || head_x_pos + this.snake.width/2 === this.game.width){
-            this.snake.speed.x = 0;
+        if (
+            //left & right walls:
+            head_x_pos === 0
+            || head_x_pos === this.snake.SPEED
+            || head_x_pos === -this.snake.SPEED
+            || head_x_pos === this.game.width - this.snake.SPEED
+            || head_x_pos === this.game.width + this.snake.SPEED
+            // up & down walls:
+            || head_y_pos === 0
+            || head_y_pos === this.snake.SPEED
+            || head_y_pos === -this.snake.SPEED
+            || head_y_pos === this.game.height - this.snake.SPEED
+            || head_y_pos === this.game.height + this.snake.SPEED
+        ) {
+            this.game.STATE = "DEAD";
         }
-        // up & down walls:
-        if(head_y_pos === 0 || head_y_pos === this.game.height){
-            this.snake.speed.y = 0;
-        }
+
     }
 }
