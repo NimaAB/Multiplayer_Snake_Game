@@ -5,8 +5,8 @@ export default class Snake {
     constructor(game) {
         this.width = game.UNIT;
         this.height = game.UNIT;
-
-        this.bodyParts = 4;
+        this.snake_body = [];
+        this.snake_length = 20; // change the snake length to make the snake longer or shorter
 
         this.head_position = {
             x: Math.floor((Math.random() * game.width) + 1),
@@ -23,13 +23,16 @@ export default class Snake {
     }
 
     draw(ctx) {
-        ctx.fillStyle = "#401f71";
-        ctx.fillRect(
-            this.head_position.x,
-            this.head_position.y,
-            this.width,
-            this.height
-        );
+        for(let i = 0; i < this.snake_body.length; i++){
+            let body_part = this.snake_body[i];
+            ctx.fillStyle = "#401f71";
+            ctx.fillRect(
+                body_part[0],
+                body_part[1],
+                this.width,
+                this.height
+            );
+        }
     }
 
 
@@ -38,13 +41,20 @@ export default class Snake {
 
         //if the block has a horizontal speed then it will only change the vertical speed/direction.
         if (this.speed.y === 0) {
-            this.head_position.x += this.speed.x;
+            this.head_position.x += this.speed.x/delta_time;
         }
         //if the block has a vertical speed then it will only change the horizontal speed/direction.
         if (this.speed.x === 0) {
-            this.head_position.y += this.speed.y;
+            this.head_position.y += this.speed.y/delta_time;
         }
-        this.collisions.wallCollisions();
+        // When a body part is drawn in front, a body must be removed at the back
+        if(this.snake_body.length > this.snake_length){
+            this.snake_body.shift();
+        }
+        // Adds a new body part to the snake
+        this.snake_body.push([this.head_position.x, this.head_position.y]);
+
+        //this.collisions.wallCollisions();
     }
 
     moveUp() {

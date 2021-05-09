@@ -1,17 +1,17 @@
 export default class InputHandler {
     constructor(snake){
         document.addEventListener("keydown", (event) => {
-            switch(event.keyCode){
-                case 38:
+            switch(event.key){
+                case "ArrowUp": case "w":
                     snake.moveUp();
                     break;
-                case 39:
+                case "ArrowRight": case "d":
                     snake.moveRight();
                     break;
-                case 40:
+                case "ArrowDown": case "s":
                     snake.moveDown();
                     break;
-                case 37:
+                case "ArrowLeft": case "a":
                     snake.moveLeft();
                     break;
                 case 81:
