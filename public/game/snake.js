@@ -41,11 +41,11 @@ export default class Snake {
 
         //if the block has a horizontal speed then it will only change the vertical speed/direction.
         if (this.speed.y === 0) {
-            this.head_position.x += this.speed.x/delta_time;
+            this.head_position.x += this.speed.x;
         }
         //if the block has a vertical speed then it will only change the horizontal speed/direction.
         if (this.speed.x === 0) {
-            this.head_position.y += this.speed.y/delta_time;
+            this.head_position.y += this.speed.y;
         }
         // When a body part is drawn in front, a body must be removed at the back
         if(this.snake_body.length > this.snake_length){
