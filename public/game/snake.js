@@ -39,14 +39,8 @@ export default class Snake {
     update(delta_time) {
         if (!delta_time) return;
 
-        //if the block has a horizontal speed then it will only change the vertical speed/direction.
-        if (this.speed.y === 0) {
-            this.head_position.x += this.speed.x;
-        }
-        //if the block has a vertical speed then it will only change the horizontal speed/direction.
-        if (this.speed.x === 0) {
-            this.head_position.y += this.speed.y;
-        }
+       this.move();
+
         // When a body part is drawn in front, a body must be removed at the back
         if(this.snake_body.length > this.snake_length){
             this.snake_body.shift();
@@ -55,6 +49,18 @@ export default class Snake {
         this.snake_body.push([this.head_position.x, this.head_position.y]);
 
         //this.collisions.wallCollisions();
+    }
+
+    move() {
+         //if the block has a horizontal speed then it will only change the vertical speed/direction.
+        if (this.speed.y === 0) {
+            this.head_position.x += this.speed.x;
+        }
+
+        //if the block has a vertical speed then it will only change the horizontal speed/direction.
+        if (this.speed.x === 0) {
+            this.head_position.y += this.speed.y;
+        }
     }
 
     moveUp() {
