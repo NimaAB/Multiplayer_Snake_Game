@@ -1,5 +1,6 @@
 import Snake from './snake.js'
 import InputHandler from './input.js';
+import CollisionDetection from "./collisionDetection.js";
 
 
 export default class Game{
@@ -13,6 +14,7 @@ export default class Game{
     start(){
         this.snake = new Snake(this);
         new InputHandler(this.snake);
+        this.collision = new CollisionDetection(this,this.snake);
 
         //other objects here with (this).
     }
@@ -24,8 +26,9 @@ export default class Game{
         }
     }
 
-    update(deltatime){
-        this.snake.update(deltatime);
+    update(delta_time){
+        this.snake.update(delta_time);
+        this.collision.wallCollisions();
     }
 
     gameOver(ctx){

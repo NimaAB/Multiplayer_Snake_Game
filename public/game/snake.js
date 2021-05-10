@@ -1,11 +1,8 @@
-import CollisionDetection from "./collisionDetection.js";
-
-
 export default class Snake {
     constructor(game) {
         this.width = game.UNIT;
         this.height = game.UNIT;
-        this.snake_length = 6 * game.UNIT; // change the snake length to make the snake longer or shorter
+        this.snake_length = 3 * game.UNIT; // change the snake length to make the snake longer or shorter
         this.posisions = [];
         this.start_position = {
             x: Math.floor((Math.random() * game.width) + 1),
@@ -17,8 +14,6 @@ export default class Snake {
             x: 2,
             y: 0
         };
-
-        this.collisions = new CollisionDetection(game, this);
     }
 
     draw(ctx) {
@@ -40,7 +35,6 @@ export default class Snake {
         this.move();
         // Adds a new body part to the snake
         this.posisions.push([this.start_position.x, this.start_position.y]);
-        this.collisions.wallCollisions();
     }
 
     move() {
