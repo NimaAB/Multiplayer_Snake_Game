@@ -1,6 +1,7 @@
 import Snake from './snake.js'
 import InputHandler from './input.js';
 import CollisionDetection from "./collisionDetection.js";
+import Food from "./food.js";
 
 
 export default class Game{
@@ -13,14 +14,17 @@ export default class Game{
 
     start(){
         this.snake = new Snake(this);
+        this.food = new Food(this);
         new InputHandler(this.snake);
         this.collision = new CollisionDetection(this,this.snake);
+
 
         //other objects here with (this).
     }
 
     draw(ctx){
         this.snake.draw(ctx);
+        this.food.draw(ctx);
         if(this.STATE === "DEAD"){
             this.gameOver(ctx);
         }
