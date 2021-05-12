@@ -1,4 +1,4 @@
-export function wallCollisions(game, snake) {
+export function hasCollided(game, snake) {
     let head = snake.posisions[snake.posisions.length - 1];
     let head_x_pos = head[0];
     let head_y_pos = head[1];

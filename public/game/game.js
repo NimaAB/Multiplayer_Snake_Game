@@ -1,7 +1,7 @@
 import Snake from './snake.js'
 import InputHandler from './input.js';
-import CollisionDetection from "./collisionDetection.js";
 import Food from "./food.js";
+import {foodEaten} from "./collisionDetection.js";
 
 
 export default class Game{
@@ -9,37 +9,42 @@ export default class Game{
         this.UNIT = 20;
         this.width = gameWidth;
         this.height = gameHeight;
-        this.STATE = "ALIVE";
+        this.foods = [];
     }
 
     start(){
         this.snake = new Snake(this);
-        this.food = new Food(this);
+        for(let i = 0; i < 4; i++){
+            this.foods.push(new Food(this));
+        }
         new InputHandler(this.snake);
-        this.collision = new CollisionDetection(this,this.snake);
-
 
         //other objects here with (this).
     }
 
     draw(ctx){
         this.snake.draw(ctx);
-        this.food.draw(ctx);
-        if(this.STATE === "DEAD"){
-            this.gameOver(ctx);
-        }
+        this.foods.forEach(food => food.draw(ctx))
     }
 
     update(delta_time){
+        if (!delta_time) return;
         this.snake.update(delta_time);
-        this.collision.wallCollisions();
+        this.eat();
     }
 
-    gameOver(ctx){
-        ctx.font = "30px Arial";
-        ctx.fillStyle = "red";
-        ctx.textAlign = "center";
-        ctx.fillText("Game Over", this.width/2, this.height/2);
+    eat(){
+        //Working here
+        this.foods.forEach(food => {
+            if(foodEaten(this.snake,food)){
+                food.eaten = true;
+            }
+        });
+        this.foods.filter(food => food.eaten).forEach(eatenFood => this.foods.pop(eatenFood));
+
+        if(this.foods.length<4){
+            this.foods.push(new Food(this))
+        }
     }
 
 }
