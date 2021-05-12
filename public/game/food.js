@@ -5,9 +5,13 @@ export default class Food{
             y: Math.floor(Math.random()*game.height)
         };
         this.UNIT = game.UNIT;
-        this.food_image = document.getElementById("food")
+        //this.food_image = document.getElementById("food")
+        this.eaten = false;
     }
+
     draw(ctx) {
-        ctx.drawImage(this.food_image,this.posision.x,this.posision.y,this.UNIT,this.UNIT);
+        ctx.fillStyle = "#dc3a3a";
+        ctx.fillRect(this.posision.x,this.posision.y,this.UNIT,this.UNIT);
     }
+
 }
