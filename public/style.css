@@ -19,10 +19,9 @@ body{
     position: relative;
 }
 
-.display {
+canvas {
     margin-top: 0.8rem;
     border: 1px solid #3e3d3f;
-    background-color: rgb(123, 164, 240);
 }
 
 .alert-box {
