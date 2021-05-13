@@ -15,5 +15,14 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.7"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NimaAB/Snake_Game.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/NimaAB/Snake_Game/issues"
+  },
+  "homepage": "https://github.com/NimaAB/Snake_Game#readme"
 }
