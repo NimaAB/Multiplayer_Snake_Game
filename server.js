@@ -36,7 +36,7 @@ function startGameInterval(client, state){
         if(!winner_value){
             client.emit('new_game_state', JSON.stringify(state));
         }else{
-            client.emit('game_over');
+            client.emit('game_over', state.player.point);
             clearInterval(intervalID);
         }
     }, 1000/FRAME_RATE);

@@ -13,6 +13,7 @@ function gameLoop(state){
         return 2;
     }
     if(collidedToFood(player_one.position, state.food)){
+        player_one.point += 1;
         player_one.snake_body.push({...player_one.position}); //legger hode koordinatene på hallen
         player_one.position.x += player_one.velocity.x;
         player_one.position.y += player_one.velocity.y;
@@ -32,6 +33,7 @@ function gameLoop(state){
 function createGameState(){
     return  {
     player:{
+        point: 0,
         //head position
         position: {
             x:4,
@@ -58,8 +60,8 @@ function createGameState(){
 
 function newFood(state){
     let food = {
-        x: Math.floor(Math.random()*GRID_SIZE),
-        y: Math.floor(Math.random()*GRID_SIZE)
+        x: Math.floor((Math.random()*GRID_SIZE - 1) + 1),
+        y: Math.floor((Math.random()*GRID_SIZE - 1) + 1)
     };
 
     //sjekker om maten er ikke på en rute som en slage ligger på.

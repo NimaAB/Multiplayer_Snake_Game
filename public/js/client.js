@@ -14,8 +14,13 @@ socket.on('new_game_state', (gameState) => {
     });
 });
 
-socket.on('game_over',(points)=>{ //Her kan vi for eksempel få total poenger fra server.
-    gameOverElement.style.display = "block";
+socket.on('game_over',(point)=>{ //Her kan vi for eksempel få total poenger fra server.
+    const p_tag = document.createElement('p');
+    const p_text = document.createTextNode(`points: ${point}`);
+    p_tag.appendChild(p_text);
+    p_tag.classList.add("order-2");
+    gameOverElement.appendChild(p_tag);
+    gameOverElement.style.display = "flex";
 })
 
 export function inputHandler(event){
