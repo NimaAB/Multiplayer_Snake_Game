@@ -35,17 +35,15 @@ io.on('connection', client => {
 
     if(gameState.players.length < 2) {
         gameState.players.push(player);
-        console.log(player);
 
         if(gameState.players.length === 2) {
-            console.log('2 Players are active!');
             startGameInterval(client, gameState);
         } else {
-            console.log("Waiting for another player...");
+            client.emit('waiting_for_players');
         }
 
     } else {
-        console.log("Max number of players reached!");
+        client.emit('too_many_players');
         client.disconnect(true);
     }
 });
@@ -60,6 +58,7 @@ function startGameInterval(client, state){
             for(let player of state.players){
                 io.emit('game_over', player.point);
                 clearInterval(intervalID);
+                state.players = [];
             }
         }
     }, 1000/FRAME_RATE);
