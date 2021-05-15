@@ -31,9 +31,8 @@ export function drawGame(gameState){
 
 
     drawFood(gameState.food, grid_size, game_size, FOOD_COLOR);
-    drawPlayer(gameState.player, grid_size, game_size, SNAKE_COLOR);
-
-
+    drawPlayer(gameState.players[0], grid_size, game_size, SNAKE_COLOR);
+    drawPlayer(gameState.players[1], grid_size, game_size, "gold");
 }
 
 function drawFood(food, grid_size, game_size, color){
