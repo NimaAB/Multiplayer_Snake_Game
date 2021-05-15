@@ -25,5 +25,5 @@ socket.on('game_over',(point)=>{ //Her kan vi for eksempel få total poenger fra
 
 export function inputHandler(event){
     const key_name = event.key
-    socket.emit('key_down_event', key_name);
+    socket.emit('key_down_event', key_name, socket.id);
 }

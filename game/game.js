@@ -31,8 +31,9 @@ function gameLoop(state){
     return false;
 }
 
-function createPlayer(x,y){
+function createPlayer(x,y, client_id){
     return {
+        id: client_id,
         point: 0,
         position: {
             x: x,

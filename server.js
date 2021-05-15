@@ -20,13 +20,15 @@ const gameState = createGameState();
 io.on('connection', client => {
     let x = Math.floor(Math.random() * 5);
     let y = Math.floor(Math.random() * 10) + 5;
-    const player = createPlayer(x,y);
+    const player = createPlayer(x,y,client.id);
 
-    client.on('key_down_event', (key_name)=>{
+    client.on('key_down_event', (key_name, client_id)=>{
         for(let player of gameState.players) {
-            const updated_velocity = updateVelocity(key_name, player.velocity);
-            if(updated_velocity){
-                player.velocity = updated_velocity;
+            if(client_id === player.id){
+                const updated_velocity = updateVelocity(key_name, player.velocity);
+                if(updated_velocity){
+                    player.velocity = updated_velocity;
+                }
             }
         }
     });
