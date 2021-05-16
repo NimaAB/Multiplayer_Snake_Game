@@ -1,7 +1,8 @@
 module.exports = {
     collidedToWall,
     collidedToSnake,
-    collidedToFood
+    collidedToFood,
+    collidedToSelf
 }
 
 function collidedToWall(snake_head, grid_size){
@@ -13,6 +14,14 @@ function collidedToWall(snake_head, grid_size){
 function collidedToFood(snake_head, food_pos){
     if(snake_head.x === food_pos.x && snake_head.y === food_pos.y){
         return true
+    }
+}
+
+function collidedToSelf(snake_head, snake_body){
+    for(let part of snake_body){
+        if(snake_head.x === part.x && snake_head.y === part.y){
+            return true;
+        }
     }
 }
 
