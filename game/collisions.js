@@ -2,7 +2,6 @@ module.exports = {
     collidedToWall,
     collidedToSnake,
     collidedToFood,
-    collidedToSelf
 }
 
 function collidedToWall(snake_head, grid_size){
@@ -17,7 +16,7 @@ function collidedToFood(snake_head, food_pos){
     }
 }
 
-function collidedToSelf(snake_head, snake_body){
+function collidedToBody(snake_head, snake_body){
     for(let part of snake_body){
         if(snake_head.x === part.x && snake_head.y === part.y){
             return true;
@@ -25,7 +24,12 @@ function collidedToSelf(snake_head, snake_body){
     }
 }
 
-function collidedToSnake(){
-    //TODO: implementering
+function collidedToSnake(player, enemies){
+    // Teller også collision med seg selv
+    for(let enemy of enemies){
+        if(collidedToBody(player.position, enemy.snake_body)) {
+            return true;
+        }
+    }
     return false;
 }

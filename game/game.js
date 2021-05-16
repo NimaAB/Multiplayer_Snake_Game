@@ -1,5 +1,5 @@
 const { GRID_SIZE } = require('./consts.js');
-const { collidedToWall, collidedToSnake, collidedToFood, collidedToSelf } = require('./collisions.js');
+const { collidedToWall, collidedToSnake, collidedToFood } = require('./collisions.js');
 
 module.exports = { createGameState, gameLoop, updateVelocity, createPlayer }
 
@@ -12,9 +12,6 @@ function gameLoop(state){
         if(collidedToWall(player.position, GRID_SIZE)){
             return player;
         }
-        if(collidedToSelf(player.position, player.snake_body)){
-            return player;
-        }
         if(collidedToFood(player.position, state.food)){
             player.points += 1;
             player.snake_body.push({...player.position}); //legger hode koordinatene på hallen
@@ -24,7 +21,7 @@ function gameLoop(state){
         }
 
         if(player.velocity.x || player.velocity.y){
-            if(collidedToSnake()){
+            if(collidedToSnake(player, state.players)){
                 return player;
             }
             player.snake_body.push({...player.position}) //legger hode koordinatene på hallen
