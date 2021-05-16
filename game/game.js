@@ -10,10 +10,10 @@ function gameLoop(state){
         player.position.y += player.velocity.y;
 
         if(collidedToWall(player.position, GRID_SIZE)){
-            return 2;
+            return player;
         }
         if(collidedToFood(player.position, state.food)){
-            player.point += 1;
+            player.points += 1;
             player.snake_body.push({...player.position}); //legger hode koordinatene på hallen
             player.position.x += player.velocity.x;
             player.position.y += player.velocity.y;
@@ -22,7 +22,7 @@ function gameLoop(state){
 
         if(player.velocity.x || player.velocity.y){
             if(collidedToSnake()){
-                return 2;
+                return player;
             }
             player.snake_body.push({...player.position}) //legger hode koordinatene på hallen
             player.snake_body.shift();
@@ -34,7 +34,7 @@ function gameLoop(state){
 function createPlayer(x,y, client_id){
     return {
         id: client_id,
-        point: 0,
+        points: 0,
         position: {
             x: x,
             y: y,

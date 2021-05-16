@@ -16,6 +16,8 @@ const io = new Server(server);
 app.use(express.static(path.join(__dirname, 'public')));
 
 const gameState = createGameState();
+let loopStarted = false;
+
 
 io.on('connection', client => {
     let x = Math.floor(Math.random() * 5);
@@ -33,33 +35,31 @@ io.on('connection', client => {
         }
     });
 
-    if(gameState.players.length < 2) {
-        gameState.players.push(player);
-
-        if(gameState.players.length === 2) {
-            startGameInterval(client, gameState);
-        } else {
-            client.emit('waiting_for_players');
-        }
-
-    } else {
+    if(gameState.players.length === 5) {
         client.emit('too_many_players');
         client.disconnect(true);
+    } else {
+        gameState.players.push(player);
+        if(!loopStarted) {
+            startGameInterval(client, gameState);
+            loopStarted = true;
+        }
     }
 });
 
 function startGameInterval(client, state){
     const intervalID = setInterval(() => {
-        const winner_value = gameLoop(state);
+        const loser = gameLoop(state);
 
-        if(!winner_value){
+        if(!loser){
             io.emit('new_game_state', JSON.stringify(state));
         } else {
             for(let player of state.players){
-                io.emit('game_over', player.point);
+                io.emit('game_over', player);
                 clearInterval(intervalID);
                 state.players = [];
             }
+            loopStarted = false;
         }
     }, 1000/FRAME_RATE);
 }

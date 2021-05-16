@@ -29,10 +29,10 @@ export function drawGame(gameState){
     //context.fillRect(0,0,canvas.width,canvas.height);
     context.drawImage(BG_IMG,0,0,canvas.width,canvas.height);
 
-
     drawFood(gameState.food, grid_size, game_size, FOOD_COLOR);
-    drawPlayer(gameState.players[0], grid_size, game_size, SNAKE_COLOR);
-    drawPlayer(gameState.players[1], grid_size, game_size, "gold");
+    for(let player of gameState.players) {
+        drawPlayer(player, grid_size, game_size, SNAKE_COLOR);
+    }
 }
 
 function drawFood(food, grid_size, game_size, color){
