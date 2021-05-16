@@ -20,8 +20,8 @@ let loopStarted = false;
 
 
 io.on('connection', client => {
-    let x = Math.floor(Math.random() * 5);
-    let y = Math.floor(Math.random() * 10) + 5;
+    let x = Math.floor(Math.random() * 25) + 2;
+    let y = Math.floor(Math.random() * 30);
     const player = createPlayer(x,y,client.id);
 
     client.on('key_down_event', (key_name, client_id)=>{

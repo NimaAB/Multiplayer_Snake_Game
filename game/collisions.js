@@ -5,7 +5,7 @@ module.exports = {
 }
 
 function collidedToWall(snake_head, grid_size){
-    if(snake_head.x < 0 || snake_head.x >grid_size || snake_head.y < 0 || snake_head.y > grid_size){
+    if(snake_head.x < 0 || snake_head.x > grid_size || snake_head.y < 0 || snake_head.y > grid_size){
         return true;
     }
 }

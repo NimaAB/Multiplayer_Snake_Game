@@ -44,7 +44,7 @@ function createPlayer(x,y, client_id){
             y: 0
         },
         snake_body: [
-            {x: 1, y: y},
+            {x: x, y: y},
         ],
     }
 }
@@ -56,14 +56,14 @@ function createGameState(){
         x: 9,
         y: 9
     },
-    grid_size: GRID_SIZE //each cell will by 20px by 20px
+    grid_size: GRID_SIZE
     };
 }
 
 function newFood(state){
     let food = {
-        x: Math.floor((Math.random()*GRID_SIZE - 1) + 1),
-        y: Math.floor((Math.random()*GRID_SIZE - 1) + 1)
+        x: Math.floor(Math.random()*GRID_SIZE),
+        y: Math.floor(Math.random()*GRID_SIZE)
     };
 
     //sjekker om maten er ikke på en rute som en slage ligger på.
