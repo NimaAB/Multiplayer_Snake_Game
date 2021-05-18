@@ -32,7 +32,7 @@ socket.on('new_game_state', (gameState) => {
     });
 });
 
-socket.on('game_over',(player)=>{ 
+socket.on('game_over',(player) => {
     const p_tag = document.createElement('p');
     const p_text = document.createTextNode(`points: ${player.points}`);
     p_tag.appendChild(p_text);
@@ -41,7 +41,7 @@ socket.on('game_over',(player)=>{
     gameOverElement.style.display = "flex";
 });
 
-socket.on('winner', (player)=>{
+socket.on('winner', (player) => {
     const p_tag = document.createElement('p');
     const p_text = document.createTextNode(`points: ${player.points}`);
     p_tag.appendChild(p_text);
