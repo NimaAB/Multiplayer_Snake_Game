@@ -1,4 +1,4 @@
-import { drawGame } from './index.js';
+import { game_initializer, drawGame } from './index.js';
 
 const gameOverElement = document.getElementById("gameOver");
 const waitingForPlayers = document.getElementById("waitingForPlayers");
@@ -6,9 +6,9 @@ const tooManyPlayers = document.getElementById("tooManyPlayers");
 
 const socket = io(`${location.protocol}//${document.domain}:${location.port}`);
 
-socket.on('connect', () => {
-    console.log("I'm connected as ", socket.id);
-});
+socket.on('init', () => {
+    game_initializer();
+})
 
 socket.on('new_game_state', (gameState) => {
     waitingForPlayers.style.display = 'none';

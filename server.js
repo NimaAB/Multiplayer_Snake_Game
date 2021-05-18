@@ -39,6 +39,7 @@ io.on('connection', client => {
         client.emit('too_many_players');
         client.disconnect(true);
     } else {
+        client.emit('init'); // game_initializer();
         gameState.players.push(player);
         if(!loopStarted) {
             startGameInterval(client, gameState);

@@ -8,7 +8,7 @@ const gameDisplay = document.getElementById('gameDisplay');
 
 let canvas;
 let context;
-function game_initializer(){
+export function game_initializer(){
     canvas = document.getElementById('gameDisplay');
     context = gameDisplay.getContext('2d');
     canvas.width = canvas.height = 600;
@@ -39,5 +39,3 @@ function drawPlayer(game_player, game_size, color){
     game_player.snake_body
         .forEach(part => context.fillRect(part.x * game_size, part.y * game_size, game_size,game_size));
 }
-
-game_initializer(); //TODO: put it in a socket-event call it "init"
