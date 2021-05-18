@@ -52,16 +52,15 @@ io.on('connection', client => {
     }
 
     function keydownHandler(key_name, client_id){
-        const updatedVelocity = updateVelocity(key_name);
-        if(updatedVelocity){
-            gameState_for_room[ROOMID].players.forEach(player => {
-                if(player.id === client_id){
-                    player.velocity = updatedVelocity;
+        gameState_for_room[ROOMID].players.forEach(player => {
+            if(client_id === player.id){
+                const updated_velocity = updateVelocity(key_name, player.velocity);
+                if(updated_velocity){
+                    player.velocity = updated_velocity;
                 }
-            });
-        }
+            }
+        });
     }
-
 });
 
 function startGameInterval(state){
