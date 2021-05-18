@@ -17,7 +17,6 @@ function joinGame(){
 }
 
 const gameOverElement = document.getElementById("gameOver");
-const waitingForPlayers = document.getElementById("waitingForPlayers");
 const tooManyPlayers = document.getElementById("tooManyPlayers");
 
 socket.on('connect', () => {
@@ -28,7 +27,6 @@ socket.on('notValidName', (msg) => {
     alert(msg)
 });
 socket.on('new_game_state', (gameState) => {
-    waitingForPlayers.style.display = 'none';
     requestAnimationFrame(()=>{
         drawGame(JSON.parse(gameState));
     });
