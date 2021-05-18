@@ -2,19 +2,23 @@ const socket = io(`${location.protocol}//${document.domain}:${location.port}`);
 
 const start_page = document.getElementById("startPage");
 const game_page = document.getElementById("gameContainer");
+const playAgain = document.getElementById("playAgain");
 const joinGameBtn = document.getElementById("joinGame");
 const playerNameInput = document.getElementById("playerName");
 
 const ROOMID = "DATA"; //Don't Change ME, please!
-joinGameBtn.addEventListener("click", joinGame);
-function joinGame(){
+joinGameBtn.addEventListener("click", ()=>{
     const playerName = playerNameInput.value;
     const reg = /^[a-zåøæA-ZÅØÆ0-9]{1,15}[_\.\* ]{0,2}$/;
     if(reg.test(playerName)){
         socket.emit('join_game_event', playerName, ROOMID);
         game_initializer();
     }
-}
+});
+
+playAgain.addEventListener("click", (e) => {
+    //TODO: emplenet rejoin.
+});
 
 const gameOverElement = document.getElementById("gameOver");
 const tooManyPlayers = document.getElementById("tooManyPlayers");

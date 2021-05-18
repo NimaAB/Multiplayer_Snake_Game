@@ -18,7 +18,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 const ROOMID = "DATA";
 //const room_clients = {};
 const gameState_for_room = { "DATA": createGameState() };
-//
+
 let loopStarted = false;
 
 

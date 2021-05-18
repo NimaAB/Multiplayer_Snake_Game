@@ -12,12 +12,14 @@
     <div class="start-container vh-100 vw-100" id="startPage">
         <h1 class="text-center mt-5 text-white font-weight-light">Multiplayer Snake Game</h1>
         <hr class="w-50 my-4 bg-light mx-auto">
-        <div class="form-group">
-            <label for="playerName" class="fs-lbl" >Username:</label>
-            <input type="text" id="playerName" class="shadow form-control" required>
-        </div>
-        <div class="form-group d-flex justify-content-center fs-btn">
-            <button id="joinGame" class="shadow btn btn-success w-100">Join the game</button>
+        <div>
+            <div class="form-group">
+                <label for="playerName" class="fs-lbl" >Username:</label>
+                <input type="text" id="playerName" class="shadow form-control" required>
+            </div>
+            <div class="form-group d-flex justify-content-center fs-btn">
+                <button id="joinGame" class="shadow btn btn-success w-100">Join the game</button>
+            </div>
         </div>
     </div>
     <div class="game-container" id="gameContainer">
@@ -27,7 +29,7 @@
             <h1 class="order-1">Game Over!</h1>
             <!--<p class="order-2">points: 0</p>-->
             <div class="order-3">
-                <a href="game.html" class="btn btn-primary fs-btn">Play Again</a>
+                <button id="playAgain" class="btn btn-primary fs-btn">Play Again</button>
                 <a href="index.html" class="btn btn-secondary fs-btn">Home</a>
             </div>
         </div>
