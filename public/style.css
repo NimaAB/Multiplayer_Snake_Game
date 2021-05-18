@@ -14,7 +14,13 @@ body{
     align-items: center;
 }
 
+.start-container{
+    background-color: #252525;
+
+}
+
 .game-container{
+    display: none;
     margin: auto;
     position: relative;
 }
@@ -60,10 +66,6 @@ canvas {
 .alert-box p{
     text-align: center;
     color: #ffffff;
-}
-
-.index-bg{
-    background-color: #252525;
 }
 
 .form{
