@@ -71,11 +71,14 @@ function startGameInterval(state){
         } else {
             const id = loser.id;
             io.to(id).emit('game_over', loser);
-            state.players.pop(loser);
+            let index = state.players.indexOf(loser);
+            state.players.splice(index, 1);
 
             if(state.players === 1){
                 const winner = state.players[0];
-                io.emit('winner-event', state.players.pop(winner));
+                io.emit('winner', winner);
+                let index = state.players.indexOf(winner);
+                state.players.splice(index, 1);
                 clearInterval(intervalID);
                 loopStarted = false;
             }    
