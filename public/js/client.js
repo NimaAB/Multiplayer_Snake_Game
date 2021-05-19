@@ -42,6 +42,7 @@ socket.on('game_over',(player) => {
 
     // Play Again btn functionality
     playAgain.addEventListener("click", (e) => {
+        gameOverElement.removeChild(p_tag);
         gameOverElement.style.display = "none";
         socket.emit('join_game_event', player.playerName, ROOMID);
     });

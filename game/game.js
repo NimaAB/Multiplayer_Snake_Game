@@ -22,6 +22,7 @@ function gameLoop(state){
 
         if(player.velocity.x || player.velocity.y){
             if(collidedToSnake(player, state.players)){
+                player.points += 5;
                 return player;
             }
             player.snake_body.push({...player.position}) //legger hode koordinatene på hallen
@@ -31,14 +32,15 @@ function gameLoop(state){
     return false;
 }
 
-function createPlayer(x,y, playerName, client_id){
+function createPlayer(playerName, client_id){
     return {
         id: client_id,
         playerName: playerName,
         points: 0,
+        best_score: 0,
         position: {
-            x: x,
-            y: y,
+            x: Math.floor(Math.random() * 25) + 2,
+            y: Math.floor(Math.random() * 30)
         },
         velocity: {
             x: 1,

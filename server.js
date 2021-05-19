@@ -33,12 +33,10 @@ io.on('connection', client => {
             client.disconnect(true);
         } else {
             if (isPlayerNameValid(playerName)){
-                let x = Math.floor(Math.random() * 25) + 2;
-                let y = Math.floor(Math.random() * 30);
-
+                
                 // Checks if client already has an active snake
                 if(!playerAlreadyActive(client.id, gameState_for_room[roomid])) {
-                    const newPlayer = createPlayer(x,y, playerName, client.id);
+                    const newPlayer = createPlayer(playerName, client.id);
                     gameState_for_room[roomid].players.push(newPlayer);
                     client.join(roomid);
                 }
@@ -81,7 +79,8 @@ function startGameInterval(state){
 
             // Sends a game over alert
             const id = loser.id;
-            io.to(id).emit('game_over', loser);
+            io.broadcast.to(loser.id).emit('game_over', loser.points)//Not sure if it's work.
+            
 
             if(state.players.length === 1){
                 const winner = state.players[0];
