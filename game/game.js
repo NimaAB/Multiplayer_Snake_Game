@@ -47,7 +47,10 @@ function createPlayer(playerName, client_id){
             y: 0
         },
         snake_body: [
-            {x: x, y: y},
+            {
+                x: Math.floor(Math.random() * 25) + 2,
+                y: Math.floor(Math.random() * 30)
+            },
         ],
     }
 }

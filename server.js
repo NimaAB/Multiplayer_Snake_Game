@@ -78,10 +78,8 @@ function startGameInterval(state){
             state.players.splice(index, 1);
 
             // Sends a game over alert
-            const id = loser.id;
-            io.broadcast.to(loser.id).emit('game_over', loser.points)//Not sure if it's work.
+            io.to(loser.id).emit('game_over', loser)
             
-
             if(state.players.length === 1){
                 const winner = state.players[0];
                 io.emit('winner', winner);
