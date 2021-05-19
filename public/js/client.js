@@ -18,7 +18,7 @@ joinGameBtn.addEventListener("click", ()=>{
 
 const gameOverElement = document.getElementById("gameOver");
 const tooManyPlayers = document.getElementById("tooManyPlayers");
-const winnerElement = document.getElementById("winnigAlert"); 
+const gameOverTitle = document.getElementById("alert-title");
 
 socket.on('connect', () => {
     console.log("I'm connected as ", socket.id);
@@ -40,9 +40,8 @@ socket.on('game_over',(player) => {
     p_tag.classList.add("order-2");
     gameOverElement.appendChild(p_tag);
     gameOverElement.style.display = "flex";
-
-    console.log('loser id', player.id);
-    console.log('socket id', socket.id);
+    gameOverTitle.innerText = "You Lost!";
+    gameOverTitle.style.color = 'red';
 
     // Play Again btn functionality
     playAgain.addEventListener("click", (e) => {
@@ -53,13 +52,23 @@ socket.on('game_over',(player) => {
 });
 
 socket.on('winner', (player) => {
+    console.log("Winner on socket...");
     const p_tag = document.createElement('p');
     const p_text = document.createTextNode(`points: ${player.points}`);
     p_tag.appendChild(p_text);
     p_tag.classList.add("order-2");
-    winnerElement.appendChild(p_tag);
-    winnerElement.style.display = "flex";
-})
+    gameOverElement.appendChild(p_tag);
+    gameOverElement.style.display = "flex";
+    gameOverTitle.innerText = "You Won!";
+    gameOverTitle.style.color = 'seagreen';
+
+    // Play Again btn functionality
+    playAgain.addEventListener("click", (e) => {
+        gameOverElement.removeChild(p_tag);
+        gameOverElement.style.display = "none";
+        socket.emit('join_game_event', player.playerName, ROOMID);
+    });
+});
 
 socket.on('too_many_players', () => {
     tooManyPlayers.style.display = 'flex';
