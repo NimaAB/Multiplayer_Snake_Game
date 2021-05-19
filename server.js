@@ -80,7 +80,9 @@ function startGameInterval(state){
             // Removes the player from the current game state
             let index = state.players.indexOf(loser);
             state.players.splice(index, 1);
-            
+
+            // When their is 1 player left, they are the winner
+            // The winner alert only shows after the players snake dies
             if(state.players.length === 1 && state.players[0] === loser.id){
                 const winner = state.players[0];
                 io.emit('winner', winner);
