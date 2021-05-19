@@ -54,10 +54,6 @@ socket.on('winner', (player) => {
     gameOverElement.style.display = "flex";
 })
 
-socket.on('waiting_for_players', () => {
-    waitingForPlayers.style.display = 'flex';
-});
-
 socket.on('too_many_players', () => {
     tooManyPlayers.style.display = 'flex';
 });

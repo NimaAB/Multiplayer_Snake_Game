@@ -15,7 +15,7 @@ body{
 }
 
 .start-container{
-    background-color: #252525;
+    background-color: white;
 
 }
 
@@ -77,8 +77,8 @@ canvas {
 .fs-lbl{
     font-weight: bold;
     font-size: 1.2rem;
-    color: whitesmoke;
-    text-shadow: 2px 1px #3e3d3f;
+    color: #252525;
+    text-shadow: 2px 1px whitesmoke;
 }
 .fs-btn{
     font-weight: bold;
