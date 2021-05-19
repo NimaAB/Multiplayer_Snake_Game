@@ -28,7 +28,10 @@ function collidedToSnake(player, enemies){
     // Teller også collision med seg selv
     for(let enemy of enemies){
         if(collidedToBody(player.position, enemy.snake_body)) {
-            return true;
+            if(enemy.id !== player.id){
+                enemy.points += player.points;
+                return true;
+            }
         }
     }
     return false;

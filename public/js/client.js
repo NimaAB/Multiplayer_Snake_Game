@@ -90,8 +90,6 @@ const context = canvas.getContext('2d');
 function game_initializer(){
     start_page.style.display = "none";
     game_page.style.display = "block";
-    //canvas = document.getElementById('gameDisplay');
-    //context = gameDisplay.getContext('2d');
     canvas.width = canvas.height = 600;
 
     context.drawImage(BG_IMG,0,0,canvas.width,canvas.height);
