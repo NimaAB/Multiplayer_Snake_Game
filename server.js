@@ -80,14 +80,10 @@ function startGameInterval(state){
             // Sends a game over alert
             io.to(loser.id).emit('game_over', loser)
             
-            if(state.players.length === 1){
-                const winner = state.players[0];
-                io.emit('winner', winner);
-                let index = state.players.indexOf(winner);
-                state.players.splice(index, 1);
+            if(state.players.length === 0){
                 clearInterval(intervalID);
                 loopStarted = false;
-            }    
+            }
         }
     }, 1000/FRAME_RATE);
 }

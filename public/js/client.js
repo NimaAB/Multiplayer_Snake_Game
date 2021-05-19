@@ -48,15 +48,6 @@ socket.on('game_over',(player) => {
     });
 });
 
-socket.on('winner', (player) => {
-    const p_tag = document.createElement('p');
-    const p_text = document.createTextNode(`points: ${player.points}`);
-    p_tag.appendChild(p_text);
-    p_tag.classList.add("order-2");
-    gameOverElement.appendChild(p_tag);
-    gameOverElement.style.display = "flex";
-})
-
 socket.on('too_many_players', () => {
     tooManyPlayers.style.display = 'flex';
 });
