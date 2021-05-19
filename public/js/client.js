@@ -16,10 +16,6 @@ joinGameBtn.addEventListener("click", ()=>{
     }
 });
 
-playAgain.addEventListener("click", (e) => {
-    //TODO: emplenet rejoin.
-});
-
 const gameOverElement = document.getElementById("gameOver");
 const tooManyPlayers = document.getElementById("tooManyPlayers");
 
@@ -43,6 +39,12 @@ socket.on('game_over',(player) => {
     p_tag.classList.add("order-2");
     gameOverElement.appendChild(p_tag);
     gameOverElement.style.display = "flex";
+
+    // Play Again btn functionality
+    playAgain.addEventListener("click", (e) => {
+        gameOverElement.style.display = "none";
+        socket.emit('join_game_event', player.playerName, ROOMID);
+    });
 });
 
 socket.on('winner', (player) => {

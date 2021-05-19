@@ -5,7 +5,7 @@ const { Server } = require('socket.io');
 
 const { createGameState, gameLoop, updateVelocity, createPlayer } = require('./game/game.js');
 const { FRAME_RATE } = require('./game/consts.js');
-const { isPlayerNameValid } = require('./game/validation.js');
+const { isPlayerNameValid, playerAlreadyActive } = require('./game/validation.js');
 
 const app = express();
 const PORT = 5000;
@@ -35,9 +35,14 @@ io.on('connection', client => {
             if (isPlayerNameValid(playerName)){
                 let x = Math.floor(Math.random() * 25) + 2;
                 let y = Math.floor(Math.random() * 30);
-                const newPlayer = createPlayer(x,y, playerName, client.id); 
-                gameState_for_room[roomid].players.push(newPlayer);
-                client.join(roomid);
+
+                // Checks if client already has an active snake
+                if(!playerAlreadyActive(client.id, gameState_for_room[roomid])) {
+                    const newPlayer = createPlayer(x,y, playerName, client.id);
+                    gameState_for_room[roomid].players.push(newPlayer);
+                    client.join(roomid);
+                }
+                // Checks if the game loop has been started
                 if(!loopStarted) {
                     startGameInterval(gameState_for_room[roomid]);
                     loopStarted = true;
@@ -69,10 +74,14 @@ function startGameInterval(state){
         if(!loser){
             io.emit('new_game_state', JSON.stringify(state));
         } else {
-            const id = loser.id;
-            io.to(id).emit('game_over', loser);
+
+            // Removes the player from the current game state
             let index = state.players.indexOf(loser);
             state.players.splice(index, 1);
+
+            // Sends a game over alert
+            const id = loser.id;
+            io.to(id).emit('game_over', loser);
 
             if(state.players.length === 1){
                 const winner = state.players[0];

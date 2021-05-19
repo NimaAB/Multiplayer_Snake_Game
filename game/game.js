@@ -34,7 +34,7 @@ function gameLoop(state){
 function createPlayer(x,y, playerName, client_id){
     return {
         id: client_id,
-        palyerName: playerName,
+        playerName: playerName,
         points: 0,
         position: {
             x: x,
