@@ -40,6 +40,9 @@ socket.on('game_over',(player) => {
     gameOverElement.appendChild(p_tag);
     gameOverElement.style.display = "flex";
 
+    console.log('loser id', player.id);
+    console.log('socket id', socket.id);
+
     // Play Again btn functionality
     playAgain.addEventListener("click", (e) => {
         gameOverElement.removeChild(p_tag);
