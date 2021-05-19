@@ -37,6 +37,7 @@ function createPlayer(playerName, client_id){
         playerName: playerName,
         points: 0,
         best_score: 0,
+        color: getRandomColor(),
         position: {
             x: Math.floor(Math.random() * 25) + 2,
             y: Math.floor(Math.random() * 30)
@@ -47,8 +48,8 @@ function createPlayer(playerName, client_id){
         },
         snake_body: [
             {
-                x: Math.floor(Math.random() * 25) + 2,
-                y: Math.floor(Math.random() * 30)
+                x: 0,
+                y: 0
             },
         ],
     }
@@ -107,4 +108,10 @@ function updateVelocity(key_name, velocity){
         default:
             return false;
     }
+}
+
+function getRandomColor(){
+    const colors = ["#A8F6EEFF", 'gold', 'yellowgreen', 'orange', 'lavender'];
+    const len = colors.length;
+    return colors[Math.floor(Math.random()*len)];
 }
