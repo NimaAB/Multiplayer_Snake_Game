@@ -73,14 +73,21 @@ function startGameInterval(state){
             io.emit('new_game_state', JSON.stringify(state));
         } else {
 
+            // Sends a game over alert
+            const id = loser.id;
+            io.to(id).emit('game_over', loser);
+
             // Removes the player from the current game state
             let index = state.players.indexOf(loser);
             state.players.splice(index, 1);
 
-            // Sends a game over alert
-            io.to(loser.id).emit('game_over', loser)
-            
-            if(state.players.length === 0){
+            // When their is 1 player left, they are the winner
+            // The winner alert only shows after the players snake dies
+            if(state.players.length === 1 && state.players[0] === loser.id){
+                const winner = state.players[0];
+                io.emit('winner', winner);
+                let index = state.players.indexOf(winner);
+                state.players.splice(index, 1);
                 clearInterval(intervalID);
                 loopStarted = false;
             }
