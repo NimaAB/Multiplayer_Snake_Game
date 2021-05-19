@@ -85,7 +85,6 @@ function game_initializer(){
 function drawGame(gameState){
     const grid_size = gameState.grid_size;
     const game_size = canvas.width / grid_size;
-                //canvas.width
 
     context.drawImage(BG_IMG,0,0,canvas.width,canvas.height);
 

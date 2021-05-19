@@ -15,10 +15,10 @@ const io = new Server(server);
 
 
 app.use(express.static(path.join(__dirname, 'public')));
-const ROOMID = "DATA";
-//const room_clients = {};
+const ROOM_ID = "DATA";
+// const room_clients = {};
 const gameState_for_room = { "DATA": createGameState() };
-
+// ensures that the gameLoop runs once per game
 let loopStarted = false;
 
 
@@ -42,17 +42,17 @@ io.on('connection', client => {
                     startGameInterval(gameState_for_room[roomid]);
                     loopStarted = true;
                 }
-            }else{
-                const msg = "Not valid valid name, name can be 1-15 character long and can contian two spaces, underline, start or dot in the midle or end.";
+            } else {
+                const msg = "Not valid valid name. Name can be 1-15 characters long and " +
+                            "can contain spaces, underlines, and dots.";
                 client.emit('notValidName', msg);
                 client.disconnect(true);
             }
         }
-        
     }
 
     function keydownHandler(key_name, client_id){
-        gameState_for_room[ROOMID].players.forEach(player => {
+        gameState_for_room[ROOM_ID].players.forEach(player => {
             if(client_id === player.id){
                 const updated_velocity = updateVelocity(key_name, player.velocity);
                 if(updated_velocity){
@@ -74,7 +74,7 @@ function startGameInterval(state){
             let index = state.players.indexOf(loser);
             state.players.splice(index, 1);
 
-            if(state.players === 1){
+            if(state.players.length === 1){
                 const winner = state.players[0];
                 io.emit('winner', winner);
                 let index = state.players.indexOf(winner);
