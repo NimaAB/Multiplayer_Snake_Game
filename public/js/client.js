@@ -89,7 +89,6 @@ function inputHandler(event){
 
 // The display code:
 const BG_IMG = document.getElementById("bg_image");
-const FOOD_COLOR = "#C63B59FF";
 
 const canvas = document.getElementById('gameDisplay');
 const context = canvas.getContext('2d');
@@ -108,7 +107,7 @@ function drawGame(gameState){
 
     context.drawImage(BG_IMG,0,0,canvas.width,canvas.height);
 
-    drawFood(gameState.foods, game_size, FOOD_COLOR);
+    drawFood(gameState.foods, game_size);
     for(let player of gameState.players) {
         drawPlayer(player, game_size);
     }
