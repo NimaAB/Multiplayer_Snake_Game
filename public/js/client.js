@@ -108,15 +108,17 @@ function drawGame(gameState){
 
     context.drawImage(BG_IMG,0,0,canvas.width,canvas.height);
 
-    drawFood(gameState.food, game_size, FOOD_COLOR);
+    drawFood(gameState.foods, game_size, FOOD_COLOR);
     for(let player of gameState.players) {
         drawPlayer(player, game_size);
     }
 }
 
-function drawFood(food, game_size, color){
-    context.fillStyle = color;
-    context.fillRect(food.x * game_size, food.y * game_size, game_size, game_size);
+function drawFood(foods, game_size){
+    foods.forEach((food) => {
+        context.fillStyle = food.type.color;
+        context.fillRect(food.position.x * game_size, food.position.y * game_size, game_size, game_size);
+    });
 }
 
 function drawPlayer(game_player, game_size){
