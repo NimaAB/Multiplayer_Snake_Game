@@ -7,10 +7,9 @@ it will refresh the server for you.
 
 Server will run on: `localhost:5000`
 
-# Two important routes:
-`/` for index page
+# Important routes:
+`/` the web page
 <br>
-`/game.html` for the game page
 
 # Using the Dockerfile:
 **step one: install Docker on your machine**
