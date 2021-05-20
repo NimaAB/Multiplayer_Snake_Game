@@ -60,7 +60,7 @@ socket.on('game_over',(player) => {
     });
 });
 
-socket.on('winner', (player) => {
+socket.on('winner', (state, player) => {
     const p_tag = document.createElement('p');
     const p_text = document.createTextNode(`points: ${player.points}`);
     p_tag.appendChild(p_text);
@@ -69,6 +69,7 @@ socket.on('winner', (player) => {
     gameOverElement.style.display = "flex";
     gameOverTitle.innerText = "You Won!";
     gameOverTitle.style.color = 'seagreen';
+    updateScore(state.players, player);
 
     // Play Again btn functionality
     playAgain.addEventListener("click", (e) => {
