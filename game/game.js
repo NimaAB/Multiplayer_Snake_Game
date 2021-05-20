@@ -12,12 +12,13 @@ function gameLoop(state){
         if(collidedToWall(player.position, GRID_SIZE)){
             return player;
         }
-        if(collidedToFood(player.position, state.food)){
+        let food_index = collidedToFood(player.position, state.foods);
+        if(food_index){
             player.points += 1;
             player.snake_body.push({...player.position}); //legger hode koordinatene på hallen
             player.position.x += player.velocity.x;
             player.position.y += player.velocity.y;
-            newFood(state);
+            newFood(state, food_index);
         }
 
         if(player.velocity.x || player.velocity.y){
@@ -58,15 +59,17 @@ function createPlayer(playerName, client_id){
 function createGameState(){
     return  {
     players: [],
-    food: {
-        x: 9,
-        y: 9
-    },
+    foods: [{x: 9, y:9},
+        {x: 10, y:10 },
+        {x: 11, y:11 },
+    ],
+
     grid_size: GRID_SIZE
     };
+
 }
 
-function newFood(state){
+function newFood(state,index){
     let food = {
         x: Math.floor(Math.random()*GRID_SIZE),
         y: Math.floor(Math.random()*GRID_SIZE)
@@ -80,7 +83,8 @@ function newFood(state){
             }
         });
     }
-    state.food = food;
+
+    state.foods[index]= food;
 }
 
 function updateVelocity(key_name, velocity){

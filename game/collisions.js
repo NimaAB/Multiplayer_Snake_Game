@@ -10,9 +10,11 @@ function collidedToWall(snake_head, grid_size){
     }
 }
 
-function collidedToFood(snake_head, food_pos){
-    if(snake_head.x === food_pos.x && snake_head.y === food_pos.y){
-        return true
+function collidedToFood(snake_head, foods){
+    for (let food of foods){
+        if(snake_head.x === food.x && snake_head.y === food.y) {
+            return foods.indexOf(food);
+        }
     }
 }
 

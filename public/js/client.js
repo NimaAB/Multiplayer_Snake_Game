@@ -102,7 +102,7 @@ function drawGame(gameState){
 
     context.drawImage(BG_IMG,0,0,canvas.width,canvas.height);
 
-    drawFood(gameState.food, game_size, FOOD_COLOR);
+    drawFood(gameState.foods, game_size, FOOD_COLOR);
     for(let player of gameState.players) {
 
 
@@ -112,9 +112,10 @@ function drawGame(gameState){
     }
 }
 
-function drawFood(food, game_size, color){
+function drawFood(foods, game_size, color){
+
     context.fillStyle = color;
-    context.fillRect(food.x * game_size, food.y * game_size, game_size, game_size);
+    foods.forEach(food=> context.fillRect(food.x * game_size, food.y * game_size, game_size, game_size))
 }
 
 function drawPlayer(game_player, game_size){
