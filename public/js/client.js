@@ -31,8 +31,14 @@ socket.on('notValidName', (msg) => {
 
 socket.on('new_game_state', (gameState, serverPlayers) => {
     requestAnimationFrame(()=>{
-        drawGame(JSON.parse(gameState));
-        updateLeaderBoard(JSON.parse(serverPlayers));
+
+        // gameState.players contains only active players
+        gameState = JSON.parse(gameState);
+        // serverPlayers contains both active and not active players
+        serverPlayers = JSON.parse(serverPlayers);
+
+        drawGame(gameState);
+        updateLeaderBoard(gameState.players, serverPlayers);
     });
 });
 
@@ -128,34 +134,55 @@ let activePlayers = [];
 let playerScores = [];
 
 
-function updateScore(player){
-    for(let panel of playerScores){
-        if(panel.id === player.id) {
-            const score = panel.divElement.getElementsByClassName('player-score')[0];
+function updateScore(gameStatePlayers, player){
+    for(let divElement of playerScores){
+
+        // gameState.players contains only active players, therefore can be used to check which players are not active
+        let active = gameStatePlayers.find(p => p.playerName === player.playerName);
+
+        // DOM elements of player's score panels
+        let name = divElement.parentElement.getElementsByClassName('player-name')[0];
+        let score = divElement.parentElement.getElementsByClassName('player-score')[0];
+
+        // If player is active
+        if(divElement.id === player.id) {
+            divElement.parentElement.style.backgroundColor = player.color;
             score.innerText = player.points;
+            name.innerText = player.playerName;
+        }
+
+        // If player is NOT active, score board will show offline
+        if(active === undefined && divElement.id === player.id) {
+            divElement.parentElement.style.backgroundColor = 'white';
+            score.innerText = player.points; // Maybe change to best_score
+            name.innerText = player.playerName + ' (offline)';
         }
     }
 }
 
-function updateLeaderBoard(serverPlayers){
+function updateLeaderBoard(gameStatePlayers, serverPlayers){
     for(let player of serverPlayers) {
+
+        // If player not yet in the leaderboard, create score dom element and add it to leaderboard dom element
         if(!activePlayers.includes(player.playerName)) {
-            const score = createPlayerScoreElement(player);
-            playerScores.push({id: player.id, divElement: score});
+            const divElement = createPlayerScoreElement(player);
+            playerScores.push({id: player.id, parentElement: divElement});
             activePlayers.push(player.playerName);
-            leaderBoard.appendChild(score);
+            leaderBoard.appendChild(divElement);
+
+        // If player name already in the leaderboard, update their score
         } else {
-            updateScore(player);
+            updateScore(gameStatePlayers, player);
         }
     }
 }
 
 // Creates a div element containing the players name and score
 function createPlayerScoreElement(player){
+    const divElement = document.createElement('div');
     const playerNameSpan = document.createElement('span');
     const playerScoreSpan = document.createElement('span');
-    const divElementClasses = ["bg-light","mb-3", "p-2", "d-flex", "justify-content-between"];
-    const divElement = document.createElement('div');
+    const divElementClasses = ["mb-3", "p-2", "d-flex", "justify-content-between"];
     playerNameSpan.classList.add("player-name");
     playerScoreSpan.classList.add("player-score");
     playerNameSpan.innerText = player.playerName;
