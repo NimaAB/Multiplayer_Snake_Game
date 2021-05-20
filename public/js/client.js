@@ -82,8 +82,6 @@ function inputHandler(event){
 // The display code:
 const BG_IMG = document.getElementById("bg_image");
 const FOOD_COLOR = "#C63B59FF";
-//let SNAKE_COLOR = ["#A8F6EEFF", 'gold', 'yellowgreen', 'orange', 'lavender'];
-
 
 const canvas = document.getElementById('gameDisplay');
 const context = canvas.getContext('2d');
@@ -104,10 +102,6 @@ function drawGame(gameState){
 
     drawFood(gameState.food, game_size, FOOD_COLOR);
     for(let player of gameState.players) {
-
-
-        // Color changes when other players are removed because the snakes color depends on its index
-        //const index = gameState.players.indexOf(player);
         drawPlayer(player, game_size);
     }
 }
