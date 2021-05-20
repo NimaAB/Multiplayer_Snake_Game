@@ -25,11 +25,14 @@ socket.on('connect', () => {
 });
 
 socket.on('notValidName', (msg) => {
-    alert(msg)
+    alert(msg);
+    location.reload();
 });
-socket.on('new_game_state', (gameState) => {
+
+socket.on('new_game_state', (gameState, playerList) => {
     requestAnimationFrame(()=>{
         drawGame(JSON.parse(gameState));
+        updateLeaderBoard(JSON.parse(playerList));
     });
 });
 
@@ -52,7 +55,6 @@ socket.on('game_over',(player) => {
 });
 
 socket.on('winner', (player) => {
-    console.log("Winner on socket...");
     const p_tag = document.createElement('p');
     const p_text = document.createTextNode(`points: ${player.points}`);
     p_tag.appendChild(p_text);
@@ -115,4 +117,51 @@ function drawPlayer(game_player, game_size){
     context.fillStyle = game_player.color;
     game_player.snake_body
         .forEach(part => context.fillRect(part.x * game_size, part.y * game_size, game_size,game_size));
+}
+
+/*###################################### Leaderboard #################################################################*/
+
+const leaderBoard = document.getElementById('leaderBoard');
+// Contains player names
+let activePlayers = [];
+// Contains player score elements
+let playerScores = [];
+
+
+function updateScore(player){
+    for(let panel of playerScores){
+        if(panel.id === player.id) {
+            const score = panel.divElement.getElementsByClassName('player-score')[0];
+            score.innerText = player.points;
+        }
+    }
+}
+
+function updateLeaderBoard(playerList){
+    for(let player of playerList) {
+        if(!activePlayers.includes(player.playerName)) {
+            const score = createPlayerScoreElement(player);
+            playerScores.push({id: player.id, divElement: score});
+            activePlayers.push(player.playerName);
+            leaderBoard.appendChild(score);
+        } else {
+            updateScore(player);
+        }
+    }
+}
+
+// Creates a div element containing the players name and score
+function createPlayerScoreElement(player){
+    const playerNameSpan = document.createElement('span');
+    const playerScoreSpan = document.createElement('span');
+    const divElementClasses = ["bg-light","mb-3", "p-2", "d-flex", "justify-content-between"];
+    const divElement = document.createElement('div');
+    playerNameSpan.classList.add("player-name");
+    playerScoreSpan.classList.add("player-score");
+    playerNameSpan.innerText = player.playerName;
+    playerScoreSpan.innerText = player.points;
+    divElement.classList.add(...divElementClasses);
+    divElement.appendChild(playerNameSpan);
+    divElement.appendChild(playerScoreSpan);
+    return divElement;
 }

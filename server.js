@@ -20,7 +20,8 @@ const ROOM_ID = "DATA";
 const gameState_for_room = { "DATA": createGameState() };
 // ensures that the gameLoop runs once per game
 let loopStarted = false;
-
+// All players that join
+let all_players = [];
 
 io.on('connection', client => {
     
@@ -33,11 +34,11 @@ io.on('connection', client => {
             client.disconnect(true);
         } else {
             if (isPlayerNameValid(playerName)){
-                
                 // Checks if client already has an active snake
                 if(!playerAlreadyActive(client.id, gameState_for_room[roomid])) {
                     const newPlayer = createPlayer(playerName, client.id);
                     gameState_for_room[roomid].players.push(newPlayer);
+                    all_players.push(newPlayer);
                     client.join(roomid);
                 }
                 // Checks if the game loop has been started
@@ -46,7 +47,7 @@ io.on('connection', client => {
                     loopStarted = true;
                 }
             } else {
-                const msg = "Not valid valid name. Name can be 1-15 characters long and " +
+                const msg = "Name is either invalid or taken.\nName can be 1-15 characters long and " +
                             "can contain spaces, underlines, and dots.";
                 client.emit('notValidName', msg);
                 client.disconnect(true);
@@ -70,7 +71,7 @@ function startGameInterval(state){
     const intervalID = setInterval(() => {
         const loser = gameLoop(state);
         if(!loser){
-            io.emit('new_game_state', JSON.stringify(state));
+            io.emit('new_game_state', JSON.stringify(state), JSON.stringify(all_players));
         } else {
 
             if(state.players.length === 1 && state.players[0].id === loser.id){
