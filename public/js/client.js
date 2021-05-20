@@ -81,9 +81,6 @@ function inputHandler(event){
 
 // The display code:
 const BG_IMG = document.getElementById("bg_image");
-const FOOD_COLOR = "#C63B59FF";
-//let SNAKE_COLOR = ["#A8F6EEFF", 'gold', 'yellowgreen', 'orange', 'lavender'];
-
 
 const canvas = document.getElementById('gameDisplay');
 const context = canvas.getContext('2d');
@@ -102,20 +99,17 @@ function drawGame(gameState){
 
     context.drawImage(BG_IMG,0,0,canvas.width,canvas.height);
 
-    drawFood(gameState.foods, game_size, FOOD_COLOR);
+    drawFood(gameState.foods, game_size);
     for(let player of gameState.players) {
-
-
-        // Color changes when other players are removed because the snakes color depends on its index
-        //const index = gameState.players.indexOf(player);
         drawPlayer(player, game_size);
     }
 }
 
-function drawFood(foods, game_size, color){
-
-    context.fillStyle = color;
-    foods.forEach(food=> context.fillRect(food.x * game_size, food.y * game_size, game_size, game_size))
+function drawFood(foods, game_size){
+    foods.forEach((food) => {
+        context.fillStyle = food.type.color;
+        context.fillRect(food.position.x * game_size, food.position.y * game_size, game_size, game_size);
+    });
 }
 
 function drawPlayer(game_player, game_size){
