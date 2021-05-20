@@ -5,6 +5,7 @@ const game_page = document.getElementById("gameContainer");
 const playAgain = document.getElementById("playAgain");
 const joinGameBtn = document.getElementById("joinGame");
 const playerNameInput = document.getElementById("playerName");
+const nameAlert = document.getElementById("alert");
 
 const ROOMID = "DATA"; //Don't Change ME, please!
 joinGameBtn.addEventListener("click", ()=>{
@@ -13,6 +14,8 @@ joinGameBtn.addEventListener("click", ()=>{
     if(reg.test(playerName)){
         socket.emit('join_game_event', playerName, ROOMID);
         game_initializer();
+    }else{
+        nameAlert.style.display="block";
     }
 });
 
@@ -79,7 +82,7 @@ socket.on('too_many_players', () => {
 });
 
 function inputHandler(event){
-    const key_name = event.key
+    const key_name = event.key;
     socket.emit('key_down_event', key_name, socket.id);
 }
 

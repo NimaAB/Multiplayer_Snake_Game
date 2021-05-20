@@ -116,7 +116,6 @@ function newFood(state, index){
         type: chooseFoodType(),
         position: position
     }
-
     state.foods[index] = food;
 }
 
