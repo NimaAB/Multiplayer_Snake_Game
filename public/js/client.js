@@ -29,16 +29,11 @@ socket.on('notValidName', (msg) => {
     location.reload();
 });
 
-socket.on('new_game_state', (gameState, serverPlayers) => {
+socket.on('new_game_state', (gameState) => {
     requestAnimationFrame(()=>{
-
-        // gameState.players contains only active players
         gameState = JSON.parse(gameState);
-        // serverPlayers contains both active and not active players
-        serverPlayers = JSON.parse(serverPlayers);
-
         drawGame(gameState);
-        updateLeaderBoard(gameState.players, serverPlayers);
+        updateLeaderBoard(gameState.players);
     });
 });
 
@@ -137,33 +132,31 @@ let playerScores = [];
 
 
 function updateScore(gameStatePlayers, player){
-    for(let divElement of playerScores){
+    for(let objElement of playerScores){
 
         // gameState.players contains only active players, therefore can be used to check which players are not active
-        let active = gameStatePlayers.find(p => p.playerName === player.playerName);
+        let active = gameStatePlayers.find(p => p.id === player.id);
 
         // DOM elements of player's score panels
-        let name = divElement.parentElement.getElementsByClassName('player-name')[0];
-        let score = divElement.parentElement.getElementsByClassName('player-score')[0];
+        let name = objElement.parentElement.getElementsByClassName('player-name')[0];
+        let score = objElement.parentElement.getElementsByClassName('player-score')[0];
 
         // If player is active
-        if(divElement.id === player.id) {
-            divElement.parentElement.style.backgroundColor = player.color;
+        if(objElement.id === player.id) {
+            objElement.parentElement.style.backgroundColor = player.color;
             score.innerText = player.points;
             name.innerText = player.playerName;
         }
 
         // If player is NOT active, score board will show offline
-        if(active === undefined && divElement.id === player.id) {
-            divElement.parentElement.style.backgroundColor = 'white';
-            score.innerText = player.points; // Maybe change to best_score
-            name.innerText = player.playerName + ' (offline)';
+        if(active === undefined && objElement.id === player.id) {
+            leaderBoard.removeChild(objElement.parentElement);
         }
     }
 }
 
-function updateLeaderBoard(gameStatePlayers, serverPlayers){
-    for(let player of serverPlayers) {
+function updateLeaderBoard(gameStatePlayers){
+    for(let player of gameStatePlayers) {
 
         // If player not yet in the leaderboard, create score dom element and add it to leaderboard dom element
         if(!activePlayers.includes(player.playerName)) {
