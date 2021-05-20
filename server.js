@@ -21,7 +21,7 @@ const gameState_for_room = { "DATA": createGameState() };
 // ensures that the gameLoop runs once per game
 let loopStarted = false;
 // All players that join
-let all_players = [];
+let serverPlayers = [];
 
 io.on('connection', client => {
     
@@ -38,7 +38,7 @@ io.on('connection', client => {
                 if(!playerAlreadyActive(client.id, gameState_for_room[roomid])) {
                     const newPlayer = createPlayer(playerName, client.id);
                     gameState_for_room[roomid].players.push(newPlayer);
-                    all_players.push(newPlayer);
+                    serverPlayers.push(newPlayer);
                     client.join(roomid);
                 }
                 // Checks if the game loop has been started
@@ -71,7 +71,7 @@ function startGameInterval(state){
     const intervalID = setInterval(() => {
         const loser = gameLoop(state);
         if(!loser){
-            io.emit('new_game_state', JSON.stringify(state), JSON.stringify(all_players));
+            io.emit('new_game_state', JSON.stringify(state), JSON.stringify(serverPlayers));
         } else {
 
             if(state.players.length === 1 && state.players[0].id === loser.id){

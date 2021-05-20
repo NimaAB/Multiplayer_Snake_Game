@@ -29,10 +29,10 @@ socket.on('notValidName', (msg) => {
     location.reload();
 });
 
-socket.on('new_game_state', (gameState, playerList) => {
+socket.on('new_game_state', (gameState, serverPlayers) => {
     requestAnimationFrame(()=>{
         drawGame(JSON.parse(gameState));
-        updateLeaderBoard(JSON.parse(playerList));
+        updateLeaderBoard(JSON.parse(serverPlayers));
     });
 });
 
@@ -137,8 +137,8 @@ function updateScore(player){
     }
 }
 
-function updateLeaderBoard(playerList){
-    for(let player of playerList) {
+function updateLeaderBoard(serverPlayers){
+    for(let player of serverPlayers) {
         if(!activePlayers.includes(player.playerName)) {
             const score = createPlayerScoreElement(player);
             playerScores.push({id: player.id, divElement: score});
