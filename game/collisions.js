@@ -16,6 +16,7 @@ function collidedToFood(snake_head, foods){
             return foods.indexOf(food);
         }
     }
+    return -1;
 }
 
 function collidedToBody(snake_head, snake_body){

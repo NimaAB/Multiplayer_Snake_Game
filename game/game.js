@@ -13,7 +13,7 @@ function gameLoop(state){
             return player;
         }
         let food_index = collidedToFood(player.position, state.foods);
-        if(food_index){
+        if(food_index !== -1){
             player.points += 1;
             player.snake_body.push({...player.position}); //legger hode koordinatene på hallen
             player.position.x += player.velocity.x;
@@ -69,7 +69,7 @@ function createGameState(){
 
 }
 
-function newFood(state,index){
+function newFood(state, index){
     let food = {
         x: Math.floor(Math.random()*GRID_SIZE),
         y: Math.floor(Math.random()*GRID_SIZE)
@@ -84,7 +84,7 @@ function newFood(state,index){
         });
     }
 
-    state.foods[index]= food;
+    state.foods[index] = food;
 }
 
 function updateVelocity(key_name, velocity){
