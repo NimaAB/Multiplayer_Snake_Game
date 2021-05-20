@@ -151,6 +151,8 @@ function updateScore(gameStatePlayers, player){
         // If player is NOT active, score board will show offline
         if(active === undefined && objElement.id === player.id) {
             leaderBoard.removeChild(objElement.parentElement);
+            let index = activePlayers.indexOf(player.playerName);
+            activePlayers.splice(index,1);
         }
     }
 }
