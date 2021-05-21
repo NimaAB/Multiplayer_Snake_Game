@@ -9,6 +9,9 @@ function gameLoop(state){
         player.position.x += player.velocity.x;
         player.position.y += player.velocity.y;
 
+        if(collidedToWall(player.position, GRID_SIZE)){
+            return player;
+        }
         
         let theCollidedFood = collidedToFood(player.position, state.foods);
         if(theCollidedFood !== -1){
