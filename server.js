@@ -73,9 +73,6 @@ function startGameInterval(state){
         if(!loser){
             io.emit('new_game_state', JSON.stringify(state));
         } else {
-
-            console.log(loser.points);
-            console.log(loser.best_score);
             if(loser.points>loser.best_score){
                 loser.best_score = loser.points;
                 const record = {
@@ -83,7 +80,6 @@ function startGameInterval(state){
                     point: loser.best_score
                 };
                 records.push(record);
-                console.log(records);
                 io.emit('records',records);
             }
 
