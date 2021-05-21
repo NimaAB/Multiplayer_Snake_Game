@@ -9,6 +9,9 @@ function gameLoop(state){
         player.position.x += player.velocity.x;
         player.position.y += player.velocity.y;
 
+        if(collidedToWall(player.position, GRID_SIZE)){
+            return player;
+        }
         
         let theCollidedFood = collidedToFood(player.position, state.foods);
         if(theCollidedFood !== -1){
@@ -20,7 +23,7 @@ function gameLoop(state){
         }
 
         if(player.velocity.x || player.velocity.y){
-            if(collidedToWall(player.position, GRID_SIZE) || collidedToSnake(player, state.players)){
+            if(collidedToSnake(player, state.players)){
                 return player;
             }
             player.snake_body.push({...player.position}) //legger hode koordinatene på hallen
@@ -81,10 +84,12 @@ function chooseFoodType(){
         {
             point:1, 
             color:"#C63B59FF",
+            name: 'apple'
         },
         {
             point:3, 
             color:"#3B69C6",
+            name: 'kiwi'
         }
     ]
     let index = Math.floor(Math.random()*4);
@@ -145,7 +150,10 @@ function updateVelocity(key_name, velocity){
 }
 
 function getRandomColor(){
-    const colors = ["#A8F6EEFF", 'gold', 'yellowgreen', 'orange', 'lavender',"#30a64f","#32a895","#ba797b"];
+    const colors = [
+        "#246a73", '#ea7317', '#38b000', '#a167a5',
+        "#c08497", '#c9a227', '#38b000', '#00b2ca',
+        '#ff499e',"#30a64f","#ad6a6c","#8390fa"];
     const len = colors.length;
     return colors[Math.floor(Math.random()*len)];
 }
