@@ -73,6 +73,12 @@ canvas {
     margin: 10rem auto;
 }
 
+.list {
+    list-style: none;
+    align-self: center;
+    font-size: 18px;
+}
+
 /*utilities:*/
 .fs-lbl{
     font-weight: bold;
