@@ -40,30 +40,26 @@ socket.on('new_game_state', (gameState) => {
     });
 });
 
+const pdiv = document.getElementById("p");
 socket.on('game_over',(player) => {
-    const p_tag = document.createElement('p');
-    const p_text = document.createTextNode(`points: ${player.points}`);
-    p_tag.appendChild(p_text);
-    p_tag.classList.add("order-2");
-    gameOverElement.appendChild(p_tag);
+    const p_tag = `<p class="order-2">points: ${player.points}</p>`;
+    pdiv.innerHTML = p_tag;
     gameOverElement.style.display = "flex";
     gameOverTitle.innerText = "You Lost!";
     gameOverTitle.style.color = 'red';
 
     // Play Again btn functionality
     playAgain.addEventListener("click", (e) => {
-        gameOverElement.removeChild(p_tag);
+        pdiv.innerHTML = "";
         gameOverElement.style.display = "none";
         socket.emit('join_game_event', player.playerName, ROOMID);
     });
 });
 
+
 socket.on('winner', (state, player) => {
-    const p_tag = document.createElement('p');
-    const p_text = document.createTextNode(`points: ${player.points}`);
-    p_tag.appendChild(p_text);
-    p_tag.classList.add("order-2");
-    gameOverElement.appendChild(p_tag);
+    const p_tag = `<p>points: ${player.points}</p>`;
+    pdiv.innerHTML = p_tag;
     gameOverElement.style.display = "flex";
     gameOverTitle.innerText = "You Won!";
     gameOverTitle.style.color = 'seagreen';
@@ -71,7 +67,7 @@ socket.on('winner', (state, player) => {
 
     // Play Again btn functionality
     playAgain.addEventListener("click", (e) => {
-        gameOverElement.removeChild(p_tag);
+        pdiv.innerHTML = "";
         gameOverElement.style.display = "none";
         socket.emit('join_game_event', player.playerName, ROOMID);
     });
