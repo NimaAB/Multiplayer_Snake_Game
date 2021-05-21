@@ -8,16 +8,15 @@ const { FRAME_RATE } = require('./game/consts.js');
 const { isPlayerNameValid, playerAlreadyActive } = require('./game/validation.js');
 
 const app = express();
-const PORT = 5000;
-const HOST = '0.0.0.0';
+const port = process.env.PORT || 5000;
 const server = http.createServer(app);
 const io = new Server(server);
 
 
 app.use(express.static(path.join(__dirname, 'public')));
 const ROOM_ID = "DATA";
-// const room_clients = {};
 const gameState_for_room = { "DATA": createGameState() };
+const records = []; //will save  <recordobj = {playerName:"name", record_point: 50}>
 // ensures that the gameLoop runs once per game
 let loopStarted = false;
 
@@ -72,25 +71,32 @@ function startGameInterval(state){
             io.emit('new_game_state', JSON.stringify(state));
         } else {
 
-            if(state.players[0].id === loser.id){
+            if(state.players.length === 1 && state.players[0].id === loser.id){
                 const winner = state.players[0];
                 let index = state.players.indexOf(winner);
                 state.players.splice(index, 1);
-                io.to(winner.id).emit('winner', state, winner);
+                io.to(winner.id).emit('winner', winner);
                 clearInterval(intervalID);
                 loopStarted = false;
             } else {
                 // Sends a game over alert
                 io.to(loser.id).emit('game_over', loser);
-
+                
                 // Removes the player from the current game state
                 let index = state.players.indexOf(loser);
                 state.players.splice(index, 1);
             }
+            const record = {
+                name: loser.playerName,
+                record: loser.best_score
+            };
+            records.push(record);
+
+            io.emit('updateLeaderboard', loser);
         }
     }, 1000/FRAME_RATE);
 }
 
-server.listen(PORT, HOST, () => {
-    console.log('Server running on port ', PORT ,'...');
+server.listen(port, () => {
+    console.log('Server running on port ', port ,'...');
 });

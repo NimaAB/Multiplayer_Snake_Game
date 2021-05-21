@@ -25,9 +25,15 @@
                             can contain spaces, underlines, and dots.
               </div>
         </div>
+        <hr class="w-100 my-4 bg-light mx-auto">
+        <div class="w-100 bg-danger d-flex align-items-center flex-column justify-content-center">
+            <h4>RECORDS</h4>
+            <div>
+                <li class="list">nima: 5</li>
+            </div>
+        </div>
     </div>
     <div class="container game-container" id="gameContainer">
-        
         <div class="row">
             <div class="col-md-2 align-items-center flex-column justify-content-center mt-5">
                 <h5>How to play:</h5>
@@ -43,6 +49,7 @@
                 <canvas id="gameDisplay" width="600" height="600"></canvas>
                 <div class="alert-box" id="gameOver">
                     <h1 class="order-1" id="alert-title"></h1>
+                    <div id="p" class="order-2"></div>
                     <div class="order-3">
                         <button id="playAgain" class="btn btn-primary fs-btn">Play Again</button>
                         <a href="index.html" class="btn btn-secondary fs-btn">Home</a>
