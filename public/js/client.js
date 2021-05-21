@@ -48,6 +48,8 @@ function inputHandler(event){
 /*########################################## Game UI #################################################################*/
 
 const BG_IMG = document.getElementById("bg_image");
+const APPLE_IMG = document.getElementById("apple_image");
+const KIWI_IMG = document.getElementById("kiwi_image");
 const canvas = document.getElementById('gameDisplay');
 const context = canvas.getContext('2d');
 
@@ -75,7 +77,11 @@ function drawGame(gameState){
 function drawFood(foods, game_size){
     foods.forEach((food) => {
         context.fillStyle = food.type.color;
-        context.fillRect(food.position.x * game_size, food.position.y * game_size, game_size, game_size);
+        if(food.type.name === 'apple') {
+            context.drawImage(APPLE_IMG, food.position.x * game_size, food.position.y * game_size, game_size, game_size);
+        } else {
+            context.drawImage(KIWI_IMG, food.position.x * game_size, food.position.y * game_size, game_size, game_size);
+        }
     });
 }
 

@@ -84,10 +84,12 @@ function chooseFoodType(){
         {
             point:1, 
             color:"#C63B59FF",
+            name: 'apple'
         },
         {
             point:3, 
             color:"#3B69C6",
+            name: 'kiwi'
         }
     ]
     let index = Math.floor(Math.random()*4);
