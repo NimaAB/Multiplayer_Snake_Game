@@ -33,7 +33,6 @@ io.on('connection', client => {
             client.disconnect(true);
         } else {
             if (isPlayerNameValid(playerName)){
-                
                 // Checks if client already has an active snake
                 if(!playerAlreadyActive(client.id, gameState_for_room[roomid])) {
                     const newPlayer = createPlayer(playerName, client.id);
@@ -46,7 +45,7 @@ io.on('connection', client => {
                     loopStarted = true;
                 }
             } else {
-                const msg = "Not valid valid name. Name can be 1-15 characters long and " +
+                const msg = "Name is either invalid or taken.\nName can be 1-15 characters long and " +
                             "can contain spaces, underlines, and dots.";
                 client.emit('notValidName', msg);
                 client.disconnect(true);
@@ -73,11 +72,11 @@ function startGameInterval(state){
             io.emit('new_game_state', JSON.stringify(state));
         } else {
 
-            if(state.players.length === 1 && state.players[0].id === loser.id){
+            if(state.players[0].id === loser.id){
                 const winner = state.players[0];
-                io.to(winner.id).emit('winner', winner);
                 let index = state.players.indexOf(winner);
                 state.players.splice(index, 1);
+                io.to(winner.id).emit('winner', state, winner);
                 clearInterval(intervalID);
                 loopStarted = false;
             } else {

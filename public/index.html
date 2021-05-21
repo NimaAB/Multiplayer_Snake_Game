@@ -20,21 +20,44 @@
             <div class="form-group d-flex justify-content-center fs-btn">
                 <button id="joinGame" class="shadow btn btn-success w-100">Join the game</button>
             </div>
+            <div id="alert" style="display: none;" class="alert alert-warning" role="alert">
+                Name is either invalid or taken. <br> Name can be 1-15 characters long <br> and
+                            can contain spaces, underlines, and dots.
+              </div>
         </div>
     </div>
-    <div class="game-container" id="gameContainer">
-        <img src="./img/bg_img.png" id="bg_image" style="display: none" alt="background image">
-        <canvas id="gameDisplay" width="600" height="600"></canvas>
-        <div class="alert-box" id="gameOver">
-            <h1 class="order-1" id="alert-title"></h1>
-            <!--<p class="order-2">points: 0</p>-->
-            <div class="order-3">
-                <button id="playAgain" class="btn btn-primary fs-btn">Play Again</button>
-                <a href="index.html" class="btn btn-secondary fs-btn">Home</a>
+    <div class="container game-container" id="gameContainer">
+        
+        <div class="row">
+            <div class="col-md-2 align-items-center flex-column justify-content-center mt-5">
+                <h5>How to play:</h5>
+                <div class="mt-5">
+                    <img src="./img/arr.png">
+                </div>
+                <div class="mt-5">
+                    <img src="./img/wasd.png">
+                </div>
             </div>
-        </div>
-        <div class="alert-box" id="tooManyPlayers">
-            <p class="lead">Max number of players reached!</p>
+            <div class="col-md-7 d-flex justify-content-center mt-3">
+                <img src="./img/bg_img.png" id="bg_image" style="display: none" alt="background image">
+                <canvas id="gameDisplay" width="600" height="600"></canvas>
+                <div class="alert-box" id="gameOver">
+                    <h1 class="order-1" id="alert-title"></h1>
+                    <div class="order-3">
+                        <button id="playAgain" class="btn btn-primary fs-btn">Play Again</button>
+                        <a href="index.html" class="btn btn-secondary fs-btn">Home</a>
+                    </div>
+                </div>
+                <div class="alert-box" id="tooManyPlayers">
+                    <p class="lead">Max number of players reached!</p>
+                </div>
+            </div>
+            <div class="col-md-3 mt-3">
+                <div class="mt-3" id="leaderBoard">
+                    <h1 class="font-weight-light text-center">Leader Board</h1>
+                    <hr class="w-100">
+                </div>
+            </div>
         </div>
     </div>
 
