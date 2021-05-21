@@ -72,7 +72,7 @@ function startGameInterval(state){
             io.emit('new_game_state', JSON.stringify(state));
         } else {
 
-            if(state.players[0].id === loser.id){
+            if(state.players.length === 1 && state.players[0].id === loser.id){
                 const winner = state.players[0];
                 let index = state.players.indexOf(winner);
                 state.players.splice(index, 1);
