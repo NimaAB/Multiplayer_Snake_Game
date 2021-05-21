@@ -32,6 +32,14 @@ socket.on('notValidName', (msg) => {
     location.reload();
 });
 
+const recordsList = document.getElementById("records");
+socket.on('records', (records)=>{
+    console.log(records);
+    records.forEach((record)=>{
+        recordsList.innerHTML = `<li class="list">${record.name}: ${record.point}</li>`;
+    });
+});
+
 socket.on('new_game_state', (gameState) => {
     requestAnimationFrame(()=>{
         gameState = JSON.parse(gameState);

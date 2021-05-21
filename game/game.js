@@ -21,9 +21,6 @@ function gameLoop(state){
 
         if(player.velocity.x || player.velocity.y){
             if(collidedToWall(player.position, GRID_SIZE) || collidedToSnake(player, state.players)){
-                if(player.points > player.best_score){
-                    player.best_score = player.points
-                }
                 return player;
             }
             player.snake_body.push({...player.position}) //legger hode koordinatene på hallen
