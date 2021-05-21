@@ -25,19 +25,20 @@ socket.on('notValidName', (msg) => {
 });
 
 const recordsList = document.getElementById("records");
-const clientRecords = [];
+//const clientRecords = [];
 socket.on('records', (records)=>{
-    records.forEach(record=>clientRecords.push(record));
     if(records.length> 0){
-        displayRecords();
+        console.log(records);
+        displayRecords(records);
     }
 });
 
-function displayRecords(){
-    clientRecords.forEach((record)=>{
+function displayRecords(records){
+    records.forEach((record)=>{
+        console.log(record)
         let listNode = document.createElement('li');
         listNode.classList.add('list');
-        listNode.innerHTML = `<li class="list">${record.name}: ${record.point}</li>`;
+        listNode.innerHTML = `${record.name}: ${record.point}`;
         recordsList.appendChild(listNode);
     });
 }
