@@ -147,7 +147,7 @@ socket.on('updateLeaderboard', (loser) => {
 
 });
 
-function updateScore(gameStatePlayers, player){
+function updateScore(player){
     for(let objElement of leaderboardScores){
         let score = objElement.parentElement.getElementsByClassName('player-score')[0];
         if(objElement.id === player.id) {
