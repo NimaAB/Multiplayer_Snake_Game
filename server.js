@@ -16,7 +16,7 @@ const io = new Server(server);
 app.use(express.static(path.join(__dirname, 'public')));
 const ROOM_ID = "DATA";
 const gameState_for_room = { "DATA": createGameState() };
-const records = []; //will save  <recordobj = {playerName:"name", record_point: 50}>
+const records = []; //will save  <recordobj = {playerName:"name", point: 50}>
 // ensures that the gameLoop runs once per game
 let loopStarted = false;
 
@@ -70,7 +70,19 @@ function startGameInterval(state){
         if(!loser){
             io.emit('new_game_state', JSON.stringify(state));
         } else {
-
+            console.log(loser.points);
+            console.log(loser.best_score);
+            if(loser.points>loser.best_score){
+                loser.best_score = loser.points;
+                const record = {
+                    name: loser.playerName,
+                    point: loser.best_score
+                };
+                records.push(record);
+                console.log(records);
+                io.emit('records',records);
+            }
+           
             if(state.players.length === 1 && state.players[0].id === loser.id){
                 const winner = state.players[0];
                 let index = state.players.indexOf(winner);
@@ -78,6 +90,7 @@ function startGameInterval(state){
                 io.to(winner.id).emit('winner', winner);
                 clearInterval(intervalID);
                 loopStarted = false;
+                
             } else {
                 // Sends a game over alert
                 io.to(loser.id).emit('game_over', loser);
@@ -86,11 +99,6 @@ function startGameInterval(state){
                 let index = state.players.indexOf(loser);
                 state.players.splice(index, 1);
             }
-            const record = {
-                name: loser.playerName,
-                record: loser.best_score
-            };
-            records.push(record);
 
             io.emit('updateLeaderboard', loser);
         }
