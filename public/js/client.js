@@ -57,13 +57,12 @@ socket.on('game_over',(player) => {
 });
 
 
-socket.on('winner', (state, player) => {
+socket.on('winner', (player) => {
     const p_tag = `<p>points: ${player.points}</p>`;
     pdiv.innerHTML = p_tag;
     gameOverElement.style.display = "flex";
     gameOverTitle.innerText = "You Won!";
     gameOverTitle.style.color = 'seagreen';
-    updateScore(state.players, player);
 
     // Play Again btn functionality
     playAgain.addEventListener("click", (e) => {
@@ -129,6 +128,9 @@ let activePlayers = [];
 // Contains player score elements
 let playerScores = [];
 
+socket.on('updateLeaderboard', (state, player) => {
+    updateScore(state.players, player);
+})
 
 function updateScore(gameStatePlayers, player){
     for(let objElement of playerScores){

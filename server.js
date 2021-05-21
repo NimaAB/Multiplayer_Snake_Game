@@ -87,6 +87,8 @@ function startGameInterval(state){
                 let index = state.players.indexOf(loser);
                 state.players.splice(index, 1);
             }
+
+            io.emit('updateLeaderboard', state, loser);
         }
     }, 1000/FRAME_RATE);
 }
