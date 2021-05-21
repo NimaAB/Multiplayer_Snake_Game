@@ -129,14 +129,16 @@ let activePlayers = [];
 let playerScores = [];
 
 socket.on('updateLeaderboard', (state, player) => {
-    updateScore(state.players, player);
-})
+    const toRemove = document.getElementById(player.id);
+    toRemove.remove();
+    let index_player = activePlayers.indexOf(player.playerName);
+    activePlayers.splice(index_player,1);
+    let index_element = playerScores.indexOf(toRemove.parentElement);
+    playerScores.splice(index_element,1);
+});
 
 function updateScore(gameStatePlayers, player){
     for(let objElement of playerScores){
-
-        // gameState.players contains only active players, therefore can be used to check which players are not active
-        let active = gameStatePlayers.find(p => p.id === player.id);
 
         // DOM elements of player's score panels
         let name = objElement.parentElement.getElementsByClassName('player-name')[0];
@@ -150,14 +152,14 @@ function updateScore(gameStatePlayers, player){
         }
 
         // If player is NOT active, score board will show offline
-        if(active === undefined && objElement.id === player.id) {
+        /*if(active === undefined && objElement.id === player.id) {
             const toRemove = document.getElementById(player.id);
             toRemove.remove();
             let index_player = activePlayers.indexOf(player.playerName);
             activePlayers.splice(index_player,1);
             let index_element = playerScores.indexOf(objElement.parentElement);
             playerScores.splice(index_element,1);
-        }
+        }*/
     }
 }
 
