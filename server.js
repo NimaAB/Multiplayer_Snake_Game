@@ -8,8 +8,8 @@ const { FRAME_RATE } = require('./game/consts.js');
 const { isPlayerNameValid, playerAlreadyActive } = require('./game/validation.js');
 
 const app = express();
-const PORT = 5000;
-const HOST = '0.0.0.0';
+const port = process.env.PORT || 5000;
+//const HOST = '0.0.0.0';
 const server = http.createServer(app);
 const io = new Server(server);
 
@@ -91,6 +91,6 @@ function startGameInterval(state){
     }, 1000/FRAME_RATE);
 }
 
-server.listen(PORT, HOST, () => {
-    console.log('Server running on port ', PORT ,'...');
+server.listen(port, () => {
+    console.log('Server running on port ', port ,'...');
 });
