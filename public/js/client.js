@@ -28,11 +28,17 @@ const recordsList = document.getElementById("records");
 const clientRecords = [];
 socket.on('records', (records)=>{
     records.forEach(record=>clientRecords.push(record));
+    if(records.length> 0){
+        displayRecords();
+    }
 });
 
 function displayRecords(){
     clientRecords.forEach((record)=>{
-        recordsList.innerHTML = `<li class="list">${record.name}: ${record.point}</li>`;
+        let listNode = document.createElement('li');
+        listNode.classList.add('list');
+        listNode.innerHTML = `<li class="list">${record.name}: ${record.point}</li>`;
+        recordsList.appendChild(listNode);
     });
 }
 
