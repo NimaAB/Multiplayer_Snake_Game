@@ -17,6 +17,7 @@ const io = new Server(server);
 app.use(express.static(path.join(__dirname, 'public')));
 const ROOM_ID = "DATA";
 const gameState_for_room = { "DATA": createGameState() };
+const records = []; //will save  <recordobj = {playerName:"name", point: 50}>
 // ensures that the gameLoop runs once per game
 let loopStarted = false;
 // number of players that joined the current game loop
@@ -73,6 +74,19 @@ function startGameInterval(state){
             io.emit('new_game_state', JSON.stringify(state));
         } else {
 
+            console.log(loser.points);
+            console.log(loser.best_score);
+            if(loser.points>loser.best_score){
+                loser.best_score = loser.points;
+                const record = {
+                    name: loser.playerName,
+                    point: loser.best_score
+                };
+                records.push(record);
+                console.log(records);
+                io.emit('records',records);
+            }
+
             if(state.players.length === 1 && state.players[0].id === loser.id){
                 const player = state.players[0];
 
@@ -101,7 +115,8 @@ function startGameInterval(state){
                 state.players.splice(index, 1);
             }
 
-            io.emit('updateLeaderboard', state, loser);
+            // Updates leaderboard
+            io.emit('updateLeaderboard', loser);
         }
     }, 1000/FRAME_RATE);
 }

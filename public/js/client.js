@@ -6,7 +6,7 @@ const playAgain = document.getElementById("playAgain");
 const joinGameBtn = document.getElementById("joinGame");
 const playerNameInput = document.getElementById("playerName");
 const nameAlert = document.getElementById("alert");
-const ROOMID = "DATA"; //Don't Change ME, please!
+const ROOMID = "DATA";
 
 joinGameBtn.addEventListener("click", ()=>{
     const playerName = playerNameInput.value;
@@ -22,6 +22,14 @@ joinGameBtn.addEventListener("click", ()=>{
 socket.on('notValidName', (msg) => {
     alert(msg);
     location.reload();
+});
+
+const recordsList = document.getElementById("records");
+socket.on('records', (records)=>{
+    console.log(records);
+    records.forEach((record)=>{
+        recordsList.innerHTML = `<li class="list">${record.name}: ${record.point}</li>`;
+    });
 });
 
 socket.on('new_game_state', (gameState) => {
@@ -123,7 +131,7 @@ let activePlayers = [];
 let leaderboardScores = [];
 
 // Removes player from leaderboard whenever they lose
-socket.on('updateLeaderboard', (state, loser) => {
+socket.on('updateLeaderboard', (loser) => {
 
     // Removes score element from the dom
     const toRemove = document.getElementById(loser.id);
@@ -160,7 +168,7 @@ function updateLeaderBoard(gameStatePlayers){
 
         // If player name already in the leaderboard, update their score
         } else {
-            updateScore(gameStatePlayers, player);
+            updateScore(player);
         }
     }
 }
