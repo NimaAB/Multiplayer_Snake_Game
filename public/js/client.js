@@ -25,12 +25,16 @@ socket.on('notValidName', (msg) => {
 });
 
 const recordsList = document.getElementById("records");
+const clientRecords = [];
 socket.on('records', (records)=>{
-    console.log(records);
-    records.forEach((record)=>{
+    records.forEach(record=>clientRecords.push(record));
+});
+
+function displayRecords(){
+    clientRecords.forEach((record)=>{
         recordsList.innerHTML = `<li class="list">${record.name}: ${record.point}</li>`;
     });
-});
+}
 
 socket.on('new_game_state', (gameState) => {
     requestAnimationFrame(()=>{
