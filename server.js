@@ -76,7 +76,7 @@ function startGameInterval(state){
                 const winner = state.players[0];
                 let index = state.players.indexOf(winner);
                 state.players.splice(index, 1);
-                io.to(winner.id).emit('winner', state, winner);
+                io.to(winner.id).emit('winner', winner);
                 clearInterval(intervalID);
                 loopStarted = false;
             } else {

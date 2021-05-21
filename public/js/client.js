@@ -151,7 +151,8 @@ function updateScore(gameStatePlayers, player){
 
         // If player is NOT active, score board will show offline
         if(active === undefined && objElement.id === player.id) {
-            leaderBoard.removeChild(objElement.parentElement);
+            const toRemove = document.getElementById(player.id);
+            toRemove.remove();
             let index_player = activePlayers.indexOf(player.playerName);
             activePlayers.splice(index_player,1);
             let index_element = playerScores.indexOf(objElement.parentElement);
@@ -188,6 +189,7 @@ function createPlayerScoreElement(player){
     playerNameSpan.innerText = player.playerName;
     playerScoreSpan.innerText = player.points;
     divElement.classList.add(...divElementClasses);
+    divElement.setAttribute('id', player.id);
     divElement.appendChild(playerNameSpan);
     divElement.appendChild(playerScoreSpan);
     return divElement;
