@@ -79,7 +79,7 @@ function newFood(state,index){
     for(let player of state.players){
         player.snake_body.forEach((snake_part) =>{
             if(food.x === snake_part.x && food.y === snake_part.y){
-                return newFood(state);
+                return newFood(state, index);
             }
         });
     }
