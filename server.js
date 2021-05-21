@@ -9,15 +9,14 @@ const { isPlayerNameValid, playerAlreadyActive } = require('./game/validation.js
 
 const app = express();
 const port = process.env.PORT || 5000;
-//const HOST = '0.0.0.0';
 const server = http.createServer(app);
 const io = new Server(server);
 
 
 app.use(express.static(path.join(__dirname, 'public')));
 const ROOM_ID = "DATA";
-// const room_clients = {};
 const gameState_for_room = { "DATA": createGameState() };
+const records = []; //will save  <recordobj = {playerName:"name", record_point: 50}>
 // ensures that the gameLoop runs once per game
 let loopStarted = false;
 
@@ -82,13 +81,18 @@ function startGameInterval(state){
             } else {
                 // Sends a game over alert
                 io.to(loser.id).emit('game_over', loser);
-
+                
                 // Removes the player from the current game state
                 let index = state.players.indexOf(loser);
                 state.players.splice(index, 1);
             }
+            const record = {
+                name: loser.playerName,
+                record: loser.best_score
+            };
+            records.push(record);
 
-            io.emit('updateLeaderboard', state, loser);
+            io.emit('updateLeaderboard', loser);
         }
     }, 1000/FRAME_RATE);
 }

@@ -7,7 +7,7 @@ const joinGameBtn = document.getElementById("joinGame");
 const playerNameInput = document.getElementById("playerName");
 const nameAlert = document.getElementById("alert");
 
-const ROOMID = "DATA"; //Don't Change ME, please!
+const ROOMID = "DATA";
 joinGameBtn.addEventListener("click", ()=>{
     const playerName = playerNameInput.value;
     const reg = /^[a-zåøæA-ZÅØÆ0-9]{1,15}[_\.\* ]{0,2}$/;
@@ -128,7 +128,7 @@ let activePlayers = [];
 // Contains player score elements
 let playerScores = [];
 
-socket.on('updateLeaderboard', (state, player) => {
+socket.on('updateLeaderboard', (player) => {
     const toRemove = document.getElementById(player.id);
     toRemove.remove();
     let index_player = activePlayers.indexOf(player.playerName);
@@ -137,7 +137,7 @@ socket.on('updateLeaderboard', (state, player) => {
     playerScores.splice(index_element,1);
 });
 
-function updateScore(gameStatePlayers, player){
+function updateScore(player){
     for(let objElement of playerScores){
 
         // DOM elements of player's score panels
@@ -150,16 +150,6 @@ function updateScore(gameStatePlayers, player){
             score.innerText = player.points;
             name.innerText = player.playerName;
         }
-
-        // If player is NOT active, score board will show offline
-        /*if(active === undefined && objElement.id === player.id) {
-            const toRemove = document.getElementById(player.id);
-            toRemove.remove();
-            let index_player = activePlayers.indexOf(player.playerName);
-            activePlayers.splice(index_player,1);
-            let index_element = playerScores.indexOf(objElement.parentElement);
-            playerScores.splice(index_element,1);
-        }*/
     }
 }
 
@@ -175,7 +165,7 @@ function updateLeaderBoard(gameStatePlayers){
 
         // If player name already in the leaderboard, update their score
         } else {
-            updateScore(gameStatePlayers, player);
+            updateScore(player);
         }
     }
 }
