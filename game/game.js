@@ -147,7 +147,7 @@ function updateVelocity(key_name, velocity){
 }
 
 function getRandomColor(){
-    const colors = ["#A8F6EEFF", 'gold', 'yellowgreen', 'orange', 'lavender'];
+    const colors = ["#A8F6EEFF", 'gold', 'yellowgreen', 'orange', 'lavender',"#30a64f","#32a895","#ba797b"];
     const len = colors.length;
     return colors[Math.floor(Math.random()*len)];
 }
