@@ -6,8 +6,8 @@ const playAgain = document.getElementById("playAgain");
 const joinGameBtn = document.getElementById("joinGame");
 const playerNameInput = document.getElementById("playerName");
 const nameAlert = document.getElementById("alert");
-
 const ROOMID = "DATA"; //Don't Change ME, please!
+
 joinGameBtn.addEventListener("click", ()=>{
     const playerName = playerNameInput.value;
     const reg = /^[a-zåøæA-ZÅØÆ0-9]{1,15}[_\.\* ]{0,2}$/;
@@ -17,14 +17,6 @@ joinGameBtn.addEventListener("click", ()=>{
     }else{
         nameAlert.style.display="block";
     }
-});
-
-const gameOverElement = document.getElementById("gameOver");
-const tooManyPlayers = document.getElementById("tooManyPlayers");
-const gameOverTitle = document.getElementById("alert-title");
-
-socket.on('connect', () => {
-    console.log("I'm connected as ", socket.id);
 });
 
 socket.on('notValidName', (msg) => {
@@ -40,52 +32,17 @@ socket.on('new_game_state', (gameState) => {
     });
 });
 
-const pdiv = document.getElementById("p");
-socket.on('game_over',(player) => {
-    const p_tag = `<p class="order-2">points: ${player.points}</p>`;
-    pdiv.innerHTML = p_tag;
-    gameOverElement.style.display = "flex";
-    gameOverTitle.innerText = "You Lost!";
-    gameOverTitle.style.color = 'red';
-
-    // Play Again btn functionality
-    playAgain.addEventListener("click", (e) => {
-        pdiv.innerHTML = "";
-        gameOverElement.style.display = "none";
-        socket.emit('join_game_event', player.playerName, ROOMID);
-    });
-});
-
-
-socket.on('winner', (player) => {
-    const p_tag = `<p>points: ${player.points}</p>`;
-    pdiv.innerHTML = p_tag;
-    gameOverElement.style.display = "flex";
-    gameOverTitle.innerText = "You Won!";
-    gameOverTitle.style.color = 'seagreen';
-
-    // Play Again btn functionality
-    playAgain.addEventListener("click", (e) => {
-        pdiv.innerHTML = "";
-        gameOverElement.style.display = "none";
-        socket.emit('join_game_event', player.playerName, ROOMID);
-    });
-});
-
-socket.on('too_many_players', () => {
-    tooManyPlayers.style.display = 'flex';
-});
-
 function inputHandler(event){
     const key_name = event.key;
     socket.emit('key_down_event', key_name, socket.id);
 }
 
-// The display code:
-const BG_IMG = document.getElementById("bg_image");
+/*########################################## Game UI #################################################################*/
 
+const BG_IMG = document.getElementById("bg_image");
 const canvas = document.getElementById('gameDisplay');
 const context = canvas.getContext('2d');
+
 function game_initializer(){
     start_page.style.display = "none";
     game_page.style.display = "block";
@@ -120,12 +77,49 @@ function drawPlayer(game_player, game_size){
         .forEach(part => context.fillRect(part.x * game_size, part.y * game_size, game_size,game_size));
 }
 
+/*############################################ Alert Dialogs #########################################################*/
+
+const gameOverElement = document.getElementById("gameOver");
+const tooManyPlayers = document.getElementById("tooManyPlayers");
+const gameOverTitle = document.getElementById("alert-title");
+const p_div = document.getElementById("p");
+
+socket.on('game_over',(player) => {
+    displayAlert(player, 'You Lost!', '#bb4430');
+});
+
+socket.on('winner', (player) => {
+    displayAlert(player, 'You Won!', '#73a942');
+});
+
+socket.on('single_player',(player) => {
+    displayAlert(player, 'Your Score!', '#00b2ca');
+});
+
+socket.on('too_many_players', () => {
+    tooManyPlayers.style.display = 'flex';
+});
+
+function displayAlert(player, alertTitle, alertColor){
+    p_div.innerHTML = `<p class="order-2">points: ${player.points}</p>`;
+    gameOverElement.style.display = "flex";
+    gameOverTitle.innerText = alertTitle;
+    gameOverTitle.style.color = alertColor;
+
+    // Play Again btn functionality
+    playAgain.addEventListener("click", (e) => {
+        p_div.innerHTML = "";
+        gameOverElement.style.display = "none";
+        socket.emit('join_game_event', player.playerName, ROOMID);
+    });
+}
+
 /*###################################### Leaderboard #################################################################*/
 
 const leaderBoard = document.getElementById('leaderBoard');
 // Contains player names
 let activePlayers = [];
-// Contains player score elements
+// Contains player score div elements
 let leaderboardScores = [];
 
 // Removes player from leaderboard whenever they lose
