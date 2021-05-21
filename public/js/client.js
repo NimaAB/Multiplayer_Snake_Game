@@ -126,40 +126,31 @@ const leaderBoard = document.getElementById('leaderBoard');
 // Contains player names
 let activePlayers = [];
 // Contains player score elements
-let playerScores = [];
+let leaderboardScores = [];
 
-socket.on('updateLeaderboard', (state, player) => {
-    const toRemove = document.getElementById(player.id);
+// Removes player from leaderboard whenever they lose
+socket.on('updateLeaderboard', (state, loser) => {
+
+    // Removes score element from the dom
+    const toRemove = document.getElementById(loser.id);
     toRemove.remove();
-    let index_player = activePlayers.indexOf(player.playerName);
+
+    // Removes player name from the active players array
+    let index_player = activePlayers.indexOf(loser.playerName);
     activePlayers.splice(index_player,1);
-    let index_element = playerScores.indexOf(toRemove.parentElement);
-    playerScores.splice(index_element,1);
+
+    // Removes score element from leaderboard scores array
+    let index_element = leaderboardScores.indexOf(toRemove.parentElement);
+    leaderboardScores.splice(index_element,1);
+
 });
 
 function updateScore(gameStatePlayers, player){
-    for(let objElement of playerScores){
-
-        // DOM elements of player's score panels
-        let name = objElement.parentElement.getElementsByClassName('player-name')[0];
+    for(let objElement of leaderboardScores){
         let score = objElement.parentElement.getElementsByClassName('player-score')[0];
-
-        // If player is active
         if(objElement.id === player.id) {
-            objElement.parentElement.style.backgroundColor = player.color;
             score.innerText = player.points;
-            name.innerText = player.playerName;
         }
-
-        // If player is NOT active, score board will show offline
-        /*if(active === undefined && objElement.id === player.id) {
-            const toRemove = document.getElementById(player.id);
-            toRemove.remove();
-            let index_player = activePlayers.indexOf(player.playerName);
-            activePlayers.splice(index_player,1);
-            let index_element = playerScores.indexOf(objElement.parentElement);
-            playerScores.splice(index_element,1);
-        }*/
     }
 }
 
@@ -169,7 +160,7 @@ function updateLeaderBoard(gameStatePlayers){
         // If player not yet in the leaderboard, create score dom element and add it to leaderboard dom element
         if(!activePlayers.includes(player.playerName)) {
             const divElement = createPlayerScoreElement(player);
-            playerScores.push({id: player.id, parentElement: divElement});
+            leaderboardScores.push({id: player.id, parentElement: divElement});
             activePlayers.push(player.playerName);
             leaderBoard.appendChild(divElement);
 
@@ -185,11 +176,18 @@ function createPlayerScoreElement(player){
     const divElement = document.createElement('div');
     const playerNameSpan = document.createElement('span');
     const playerScoreSpan = document.createElement('span');
-    const divElementClasses = ["mb-3", "p-2", "d-flex", "justify-content-between"];
+    const divElementClasses = ["text-white", "mb-3", "p-2", "d-flex", "justify-content-between"];
     playerNameSpan.classList.add("player-name");
     playerScoreSpan.classList.add("player-score");
-    playerNameSpan.innerText = player.playerName;
+
+    if(player.id === socket.id) {
+        playerNameSpan.innerText = '(You) ' + player.playerName;
+    } else {
+        playerNameSpan.innerText = player.playerName;
+    }
+
     playerScoreSpan.innerText = player.points;
+    divElement.style.backgroundColor = player.color;
     divElement.classList.add(...divElementClasses);
     divElement.setAttribute('id', player.id);
     divElement.appendChild(playerNameSpan);

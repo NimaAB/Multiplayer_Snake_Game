@@ -1,4 +1,5 @@
-const express = require('express');  // imports express module
+
+const express = require('express');
 const path = require('path');
 const http = require('http');
 const { Server } = require('socket.io');
@@ -9,14 +10,12 @@ const { isPlayerNameValid, playerAlreadyActive } = require('./game/validation.js
 
 const app = express();
 const port = process.env.PORT || 5000;
-//const HOST = '0.0.0.0';
 const server = http.createServer(app);
 const io = new Server(server);
 
 
 app.use(express.static(path.join(__dirname, 'public')));
 const ROOM_ID = "DATA";
-// const room_clients = {};
 const gameState_for_room = { "DATA": createGameState() };
 // ensures that the gameLoop runs once per game
 let loopStarted = false;
@@ -73,13 +72,21 @@ function startGameInterval(state){
         } else {
 
             if(state.players.length === 1 && state.players[0].id === loser.id){
+
+                // Sends a winning alert
                 const winner = state.players[0];
+                io.to(winner.id).emit('winner', winner);
+
+                // Removes player from the current game state
                 let index = state.players.indexOf(winner);
                 state.players.splice(index, 1);
-                io.to(winner.id).emit('winner', winner);
+
+                // Stops game loop
                 clearInterval(intervalID);
                 loopStarted = false;
+
             } else {
+
                 // Sends a game over alert
                 io.to(loser.id).emit('game_over', loser);
 
