@@ -10,22 +10,33 @@ const ROOMID = "DATA";
 
 joinGameBtn.addEventListener("click", ()=>{
     const playerName = playerNameInput.value;
-    const reg = /^[a-zåøæA-ZÅØÆ0-9]{1,15}[_\.\* ]{0,2}$/;
+    // regex pattern copied at - https://stackoverflow.com/a/12019115
+    const reg = /^(?=[a-zA-Z0-9._]{3,15}$)(?!.*[_.]{2})[^_.].*[^_.]$/;
+    // Check if username is valid
     if(reg.test(playerName)){
         socket.emit('join_game_event', playerName, ROOMID);
         game_initializer();
-    }else{
-        nameAlert.style.display="block";
+    } else {
+        nameAlert.style.display = "block";
     }
 });
 
-socket.on('notValidName', (msg) => {
-    alert(msg);
-    location.reload();
+socket.on('new_game_state', (gameState) => {
+    requestAnimationFrame(()=>{
+        gameState = JSON.parse(gameState);
+        drawGame(gameState);
+        updateLeaderBoard(gameState.players);
+    });
 });
 
+function inputHandler(event){
+    const key_name = event.key;
+    socket.emit('key_down_event', key_name, socket.id);
+}
+
+/*############################################ Score Records #########################################################*/
+
 const recordsList = document.getElementById("records");
-//const clientRecords = [];
 socket.on('records', (records)=>{
     if(records.length > 0){
         records.sort(function(a,b) {return b.point - a.point});
@@ -51,19 +62,6 @@ function displayRecords(records){
         }
         recordsList.appendChild(listNode);
     });
-}
-
-socket.on('new_game_state', (gameState) => {
-    requestAnimationFrame(()=>{
-        gameState = JSON.parse(gameState);
-        drawGame(gameState);
-        updateLeaderBoard(gameState.players);
-    });
-});
-
-function inputHandler(event){
-    const key_name = event.key;
-    socket.emit('key_down_event', key_name, socket.id);
 }
 
 /*########################################## Game UI #################################################################*/
