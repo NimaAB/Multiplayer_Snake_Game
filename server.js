@@ -34,24 +34,17 @@ io.on('connection', client => {
             client.emit('too_many_players');
             client.disconnect(true);
         } else {
-            if (isPlayerNameValid(playerName)){
-                // Checks if client already has an active snake
-                if(!playerAlreadyActive(client.id, gameState_for_room[roomid])) {
-                    const newPlayer = createPlayer(playerName, client.id);
-                    gameState_for_room[roomid].players.push(newPlayer);
-                    client.join(roomid);
-                    numberOfPlayers++;
-                }
-                // Checks if the game loop has been started
-                if(!loopStarted) {
-                    startGameInterval(gameState_for_room[roomid]);
-                    loopStarted = true;
-                }
-            } else {
-                const msg = "Name is either invalid or taken.\nName can be 1-15 characters long and " +
-                            "can contain spaces, underlines, and dots.";
-                client.emit('notValidName', msg);
-                client.disconnect(true);
+            // Checks if client already has an active snake
+            if(!playerAlreadyActive(client.id, gameState_for_room[roomid])) {
+                const newPlayer = createPlayer(playerName, client.id);
+                gameState_for_room[roomid].players.push(newPlayer);
+                client.join(roomid);
+                numberOfPlayers++;
+            }
+            // Checks if the game loop has been started
+            if(!loopStarted) {
+                startGameInterval(gameState_for_room[roomid]);
+                loopStarted = true;
             }
         }
     }
