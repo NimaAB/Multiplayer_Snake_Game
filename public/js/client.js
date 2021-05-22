@@ -27,18 +27,28 @@ socket.on('notValidName', (msg) => {
 const recordsList = document.getElementById("records");
 //const clientRecords = [];
 socket.on('records', (records)=>{
-    if(records.length> 0){
-        console.log(records);
+    if(records.length > 0){
+        records.sort(function(a,b) {return b.point - a.point});
         displayRecords(records);
     }
 });
 
 function displayRecords(records){
-    records.forEach((record)=>{
-        console.log(record)
-        let listNode = document.createElement('li');
-        listNode.classList.add('list');
-        listNode.innerHTML = `${record.name}: ${record.point}`;
+    records.forEach(record => {
+        let index = records.indexOf(record);
+        const listNode = document.createElement('div');
+        listNode.classList.add('record-item', 'shadow');
+        listNode.innerHTML = `<span>${record.name}</span><span>${record.point}</span>`;
+
+        if(index === 0) {
+            const badge = document.createElement('span');
+            badge.classList.add('badge', 'badge-warning');
+            badge.innerText = 'Highest Score';
+            badge.style.position = 'absolute';
+            badge.style.top = '-20px';
+            badge.style.right = '0';
+            listNode.appendChild(badge);
+        }
         recordsList.appendChild(listNode);
     });
 }

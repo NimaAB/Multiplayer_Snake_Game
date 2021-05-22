@@ -79,6 +79,17 @@ canvas {
     font-size: 18px;
 }
 
+.record-item {
+    padding: 10px;
+    margin: 20px 0 20px 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    background: #d93636;
+    color: white;
+}
+
 /*utilities:*/
 .fs-lbl{
     font-weight: bold;
