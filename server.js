@@ -27,7 +27,8 @@ io.on('connection', client => {
     
     client.on('key_down_event', keydownHandler);
     client.on('join_game_event', joinGameHandler);
-    
+    io.emit('records', records);
+
     function joinGameHandler(playerName, roomid){
         if(gameState_for_room[roomid].players.length === 5) {
             client.emit('too_many_players');
@@ -73,21 +74,16 @@ function startGameInterval(state){
         if(!loser){
             io.emit('new_game_state', JSON.stringify(state));
         } else {
-            if(loser.points>loser.best_score){
-                loser.best_score = loser.points;
-                const record = {
-                    name: loser.playerName,
-                    point: loser.best_score
-                };
-                records.push(record);
-                io.emit('records',records);
-            }
+
+            updateRecords(loser);
 
             if(state.players.length === 1 && state.players[0].id === loser.id){
                 const player = state.players[0];
 
+                // If single player, winner is not announced
                 if(numberOfPlayers === 1) {
                     io.to(player.id).emit('single_player', player);
+                // If multiple player, a winner will be announced
                 } else {
                     io.to(player.id).emit('winner', player);
                 }
@@ -115,6 +111,25 @@ function startGameInterval(state){
             io.emit('updateLeaderboard', loser);
         }
     }, 1000/FRAME_RATE);
+}
+
+function updateRecords(loser){
+    if(loser.points > loser.best_score){
+        loser.best_score = loser.points;
+        const record = {
+            name: loser.playerName,
+            point: loser.best_score
+        };
+
+        // If record already exist, update the record, else push the record
+        const r = records.find(r => r.name === loser.playerName);
+        if(r) {
+            const index = records.indexOf(r);
+            records[index].point = loser.best_score;
+        } else {
+            records.push(record);
+        }
+    }
 }
 
 server.listen(port, () => {
