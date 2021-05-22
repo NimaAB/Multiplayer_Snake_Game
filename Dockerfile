@@ -1,5 +1,9 @@
 FROM node:16-alpine3.11
 
+ENV MONGO_DB_USERNAME=groupe25
+ENV MONGO_DB_PWD=groupe25
+
+
 #installing nginx
 RUN apk --no-cache add nginx
 

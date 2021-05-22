@@ -1,0 +1,30 @@
+version: '3'
+services: 
+    web:
+        container_name: snake
+        build: .
+        ports:
+            - 5000:5000
+        depends_on:
+            - mongodb
+    mongodb:
+        image: mongo
+        ports:
+            - 27017:27017
+        environment: 
+            - MONGO_INITDB_ROOT_USERNAME=groupe25
+            - MONGO_INITDB_ROOT_PASSWORD=groupe25
+        #volume:
+            #- mongo-data: /data/db
+    mongo-express:
+        image: mongo-express
+        ports: 
+            - 8080:8081
+        environment:
+            - ME_CONFIG_MONGODB_ADMINUSERNAME=groupe25
+            - ME_CONFIG_MONGODB_ADMINPASSWORD=groupe25
+            - ME_CONFIG_MONGODB_SERVER=mongodb
+#volumes:
+    #mongo-data:
+        #driver: local
+              

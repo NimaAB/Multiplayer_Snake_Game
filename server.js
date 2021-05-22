@@ -1,7 +1,8 @@
-
 const express = require('express');
 const path = require('path');
 const http = require('http');
+const db = require("./database")
+const collection = "records";
 const { Server } = require('socket.io');
 
 const { createGameState, gameLoop, updateVelocity, createPlayer } = require('./game/game.js');
@@ -9,15 +10,17 @@ const { FRAME_RATE } = require('./game/consts.js');
 const { isPlayerNameValid, playerAlreadyActive } = require('./game/validation.js');
 
 const app = express();
-const port = process.env.PORT || 5000;
+const port = 5000;
 const server = http.createServer(app);
 const io = new Server(server);
+
 
 
 app.use(express.static(path.join(__dirname, 'public')));
 const ROOM_ID = "DATA";
 const gameState_for_room = { "DATA": createGameState() };
-const records = []; //will save  <recordobj = {playerName:"name", point: 50}>
+const records = [];
+
 // ensures that the gameLoop runs once per game
 let loopStarted = false;
 // number of players that joined the current game loop
@@ -27,6 +30,7 @@ io.on('connection', client => {
     
     client.on('key_down_event', keydownHandler);
     client.on('join_game_event', joinGameHandler);
+    
     io.emit('records', records);
 
     function joinGameHandler(playerName, roomid){
@@ -132,6 +136,14 @@ function updateRecords(loser){
     }
 }
 
+db.connect((err)=>{
+    if(err){
+        console.log(err);
+        process.exit(1);
+    }else{
+        console.log("db connected")
+    }
+});
 server.listen(port, () => {
     console.log('Server running on port ', port ,'...');
-});
+}); 
