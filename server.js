@@ -106,21 +106,19 @@ function startGameInterval(state){
 }
 
 function updateRecords(loser){
-    if(loser.points > loser.best_score){
-        loser.best_score = loser.points;
-        const record = {
-            name: loser.playerName,
-            point: loser.best_score
-        };
-
-        // If record already exist, update the record, else push the record
-        const r = records.find(r => r.name === loser.playerName);
-        if(r) {
+    const r = records.find(r => r.name === loser.playerName);
+    const record = {
+        name: loser.playerName,
+        point: loser.best_score
+    };
+    if(r){
+        if(loser.points > r.point) {
             const index = records.indexOf(r);
-            records[index].point = loser.best_score;
-        } else {
-            records.push(record);
+            records[index].point = loser.points;
+            loser.best_score = loser.points;
         }
+    } else {
+        records.push(record);
     }
 }
 
