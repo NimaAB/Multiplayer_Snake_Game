@@ -1,0 +1,30 @@
+
+version: '2'
+services:
+  web:
+    build:
+      context: ./
+    image: node_js
+    container_name: nodejs
+    ports:
+      - 5000
+    networks:
+      - myapp
+  #Nginx Service
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    tty: true
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./nginx/ssl/:/opt
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - myapp
+
+
+#Docker Networks
+networks:
+  myapp:
+    driver: bridge
