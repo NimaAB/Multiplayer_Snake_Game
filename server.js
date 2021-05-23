@@ -1,4 +1,3 @@
-
 const express = require('express');
 const path = require('path');
 const http = require('http');
@@ -6,7 +5,7 @@ const { Server } = require('socket.io');
 
 const { createGameState, gameLoop, updateVelocity, createPlayer } = require('./game/game.js');
 const { FRAME_RATE } = require('./game/consts.js');
-const { isPlayerNameValid, playerAlreadyActive } = require('./game/validation.js');
+const { playerAlreadyActive } = require('./game/validation.js');
 
 const app = express();
 const port = process.env.PORT || 5000;
