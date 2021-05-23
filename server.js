@@ -109,9 +109,10 @@ function updateRecords(loser){
     const r = records.find(r => r.name === loser.playerName);
     const record = {
         name: loser.playerName,
-        point: loser.best_score
+        point: loser.points
     };
     if(r){
+
         if(loser.points > r.point) {
             const index = records.indexOf(r);
             records[index].point = loser.points;
