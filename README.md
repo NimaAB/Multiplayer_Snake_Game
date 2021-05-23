@@ -7,10 +7,6 @@ it will refresh the server for you.
 
 Server will run on: `localhost:5000`
 
-# Important routes:
-`/` the web page
-<br>
-
 # Using the Dockerfile:
 **step one: install Docker on your machine**
 <br>
@@ -30,6 +26,3 @@ Server will run on: `localhost:5000`
 `docker-compose -f docker-compose.yml up -d`
 <br>
 **now check https://localhost:5000**
-
-# Documentation: 
-[<img width="60" alt="docs" src="https://user-images.githubusercontent.com/55274614/118265924-2b66b480-b4ba-11eb-8426-cf284a1a7502.PNG">](https://docs.google.com/document/d/15_R-5iYgSnLNcWtZG0tOPo6oMkvQS6opGS5TFYPeteA/edit)
