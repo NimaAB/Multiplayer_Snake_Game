@@ -16,7 +16,7 @@ services:
     container_name: nginx
     tty: true
     ports:
-      - "5000:5000"
+      - 5000:5000
     volumes:
       - ./nginx/ssl/:/opt
       - ./nginx/conf.d/:/etc/nginx/conf.d/
