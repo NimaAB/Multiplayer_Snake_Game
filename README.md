@@ -22,7 +22,7 @@ Server will run on: `localhost:5000`
 **now check http://localhost:5000/**
 
 
-# Running with on https: 
+# Running with ssl: 
 `docker-compose -f docker-compose.yml up -d`
 <br>
 **now check https://localhost:5000**
